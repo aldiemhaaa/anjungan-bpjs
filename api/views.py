@@ -122,42 +122,11 @@ def index(request):
         response2 = requests.post(url,data = dataKey ,headers = headers)
         global hasil
         hasil = response2.json()
-        # message = result['metaData']['message']
         print(hasil)
-    #     print(stamp)
-    #     print(encodesignature)
-        # print(int(noKartu))
-        # print(noKartu)
-        # print(response.json())
-        # print(list(diag['response']))
+
 
     return render(request,'index.html', {
         'diagnosa':diag,
         'hasil': hasil,
-        # 'stamp': stamp,
-        # 'signature': encodesignature,
-        # 'consID' : consID,
-        # 'faskes' : faskes,
-        # 'dateToday' : today
     })
-
-# def index(request):
-#     diag = {}
-#     if request.method == request.GET:
-#         diagnosa = request.GET['diagnosa']
-#         url = 'https://new-api.bpjs-kesehatan.go.id:8080/Rujukan/%s' % diagnosa
-#         headers = {
-#             "Accept":"application/json", 
-#             "X-cons-id":consID,
-#             "X-timestamp":stamp,
-#             "X-signature":encodesignature
-#         }
-#         response = requests.get(url,headers = headers)
-#         diag = response.json()
-        
-#         print(diag)
-#     return render(request,'index.html', {
-#         'diagnosa':diag,
-#     })
-
 
