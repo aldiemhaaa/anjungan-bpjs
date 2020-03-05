@@ -3,91 +3,177 @@
 <html lang="en">
 
 <head>
-  <!-- Required meta tags -->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <!-- <link rel="stylesheet" type="text/css" href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}"> -->
-	<link rel="stylesheet" type="text/css" href="{% static 'fonts/font-awesome-4.7.0/css/font-awesome.min.css' %}">
-	<link rel="stylesheet" type="text/css" href="{% static 'vendor/animate/animate.css' %}">
-	<link rel="stylesheet" type="text/css" href="{% static 'vendor/select2/select2.min.css' %}">
-	<link rel="stylesheet" type="text/css" href="{% static 'vendor/perfect-scrollbar/perfect-scrollbar.css' %}">
-	<link rel="stylesheet" type="text/css" href="{% static 'css/util.css' %}">
-	<!-- <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}"> -->
-  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" type="text/css" href="{% static 'fonts/font-awesome-4.7.0/css/font-awesome.min.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'vendor/animate/animate.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'vendor/select2/select2.min.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'vendor/perfect-scrollbar/perfect-scrollbar.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'css/util.css' %}">
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
     integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
   <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
     crossorigin="anonymous"></script>
+  <style>
+    @import url(https://fonts.googleapis.com/css?family=Roboto:300);
+  .flexlogin{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+.login-page {
+  width: 360px;
+  padding: 8% 0 0;
+  margin: auto;
+}
+.form {
+  position: relative;
+  z-index: 1;
+  background: #FFFFFF;
+  max-width: 360px;
+  margin: 0 auto 100px;
+  padding: 45px;
+  text-align: center;
+  box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+}
+.form input {
+  font-family: "Roboto", sans-serif;
+  outline: 0;
+  background: #f2f2f2;
+  width: 100%;
+  border: 0;
+  margin: 0 0 15px;
+  padding: 15px;
+  box-sizing: border-box;
+  font-size: 14px;
+}
+.form button {
+  font-family: "Roboto", sans-serif;
+  text-transform: uppercase;
+  outline: 0;
+  background: #4CAF50;
+  width: 100%;
+  border: 0;
+  padding: 15px;
+  color: #FFFFFF;
+  font-size: 14px;
+  -webkit-transition: all 0.3 ease;
+  transition: all 0.3 ease;
+  cursor: pointer;
+}
+.form button:hover,.form button:active,.form button:focus {
+  background: #43A047;
+}
+.form .message {
+  margin: 15px 0 0;
+  color: #b3b3b3;
+  font-size: 12px;
+}
+.form .message a {
+  color: #4CAF50;
+  text-decoration: none;
+}
+.form .register-form {
+  display: none;
+}
+.container {
+  position: relative;
+  z-index: 1;
+  max-width: 300px;
+  margin: 0 auto;
+}
+.container:before, .container:after {
+  content: "";
+  display: block;
+  clear: both;
+}
+.container .info {
+  margin: 50px auto;
+  text-align: center;
+}
+.container .info h1 {
+  margin: 0 0 15px;
+  padding: 0;
+  font-size: 36px;
+  font-weight: 300;
+  color: #1a1a1a;
+}
+.container .info span {
+  color: #4d4d4d;
+  font-size: 12px;
+}
+.container .info span a {
+  color: #000000;
+  text-decoration: none;
+}
+.container .info span .fa {
+  color: #EF3B3A;
+}
+body {
+  background: #76b852; /* fallback for old browsers */
+  background: -webkit-linear-gradient(right, #76b852, #8DC26F);
+  background: -moz-linear-gradient(right, #76b852, #8DC26F);
+  background: -o-linear-gradient(right, #76b852, #8DC26F);
+  background: linear-gradient(to left, #76b852, #8DC26F);
+  font-family: "Roboto", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;      
+}
 
+  </style>
   <title>No Rujukan</title>
 </head>
 
 <body>
-  <h5>No Rujukan</h5>
+<div class="flexlogin">
+  <div class="login-page">
+    <div class="form">
+      <form class="login-form" method="post">
+        <h5>Cari Berdasarkan Rujukan</h5>
+        {% csrf_token %}
+        <input type="text" placeholder="Nomor Rujukan" name="diagnosa"/>
+        <button type="submit">SUBMIT</button>
+      </form>
+    </div>
+  </div>
+
+  <div class="login-page">
+    <div class="form">
+      <form class="login-form" method="post">
+        <h5>Cari Berdasarkan Nomor Kartu</h5>
+        {% csrf_token %}
+        <input type="text" placeholder="Nomor Kartu" name="nomorKartu"/>
+        <button type="submit">SUBMIT</button>
+      </form>
+    </div>
+  </div>
+</div>
+<div class="login-page">
+  <div class="form">
+    <p>{{diagnosa.response.rujukan.peserta.noKartu}}</p>
+    <p>{{hasil.metaData.message}}</p>
+  </div>
+</div>
+<!--     
+    <h5>No Rujukan</h5>
+    <form method="post">
+      {% csrf_token %}
+      <input type="text" name="diagnosa">
+      <button type="submit" v-on:click="isHidden = false">SUBMIT</button>
+    </form> -->
+    <!-- <h5>No Kartu</h5>
+    <form method="post">
+      {% csrf_token %}
+      <input type="text" name="nomorKartu">
+      <button type="submit" v-on:click="second = false">SUBMIT</button>
+    </form> -->
   <form method="post">
     {% csrf_token %}
-    <input type="text" name="diagnosa">
-    <button type="submit">SUBMIT</button>
+    <button id="postData" type="submit">POST NO RUJUKAN</button>
   </form>
-
-  <!-- <ul class="list-group">
-    <li class="list-group-item">Kode Diagnosa : {{diagnosa.response.rujukan.diagnosa.kode}}</li>
-    <li class="list-group-item">Nama Diagnosa : {{diagnosa.response.rujukan.diagnosa.nama}}</li>
-    <li class="list-group-item">keluhan : {{diagnosa.response.rujukan.keluhan}}</li>
-    <li class="list-group-item">No Kunjungan : {{diagnosa.response.rujukan.noKunjungan}}</li>
-    <li class="list-group-item">pelayanan Kode : {{diagnosa.response.rujukan.pelayanan.kode}}</li>
-    <li class="list-group-item">pelayanan Nama : {{diagnosa.response.rujukan.pelayanan.nama}}</li>
-    <li class="list-group-item">nmAsuransi : {{diagnosa.response.rujukan.peserta.cob.nmAsuransi}}</li>
-    <li class="list-group-item">noAsuransi : {{diagnosa.response.rujukan.peserta.cob.noAsuransi}}</li>
-    <li class="list-group-item">tglTAT : {{diagnosa.response.rujukan.peserta.cob.tglTAT}}</li>
-    <li class="list-group-item">tglTMT : {{diagnosa.response.rujukan.peserta.cob.tglTMT}}</li>
-    <li class="list-group-item">Keterangan Hak Kelas : {{diagnosa.response.rujukan.peserta.hakKelas.keterangan}}</li>
-    <li class="list-group-item">Kode Hak Kelas : {{diagnosa.response.rujukan.peserta.hakKelas.kode}}</li>
-    <li class="list-group-item">Informasi Dinsos : {{diagnosa.response.rujukan.peserta.informasi.dinsos}}</li>
-    <li class="list-group-item">No SKTM : {{diagnosa.response.rujukan.peserta.informasi.noSKTM}}</li>
-    <li class="list-group-item">Prolanis PRB : {{diagnosa.response.rujukan.peserta.informasi.prolanisPRB}}</li>
-    <li class="list-group-item">Jenis Peserta :{{diagnosa.response.rujukan.peserta.jenisPeserta.keterangan}}</li>
-    <li class="list-group-item">Kode Peserta :{{diagnosa.response.rujukan.peserta.jenisPeserta.kode}}</li>
-    <li class="list-group-item">No MR : {{diagnosa.response.rujukan.peserta.mr.noMR}}</li>
-    <li class="list-group-item">No Telp : {{diagnosa.response.rujukan.peserta.mr.noTelepon}}</li>
-    <li class="list-group-item">NAMA: {{diagnosa.response.rujukan.peserta.nama}}</li>
-    <li class="list-group-item">NIK: {{diagnosa.response.rujukan.peserta.nik}}</li>
-    <li class="list-group-item">No Kartu: {{diagnosa.response.rujukan.peserta.noKartu}}</li>
-    <li class="list-group-item">PISA : {{diagnosa.response.rujukan.peserta.pisa}}</li>
-    <li class="list-group-item">kdProvider : {{diagnosa.response.rujukan.peserta.provUmum.kdProvider}}</li>
-    <li class="list-group-item">nmProvider : {{diagnosa.response.rujukan.peserta.provUmum.nmProvider}}</li>
-    <li class="list-group-item">Jenis Kelamin : {{diagnosa.response.rujukan.peserta.sex}}</li>
-    <li class="list-group-item">Status Peserta : {{diagnosa.response.rujukan.peserta.statusPeserta.keterangan}}</li>
-    <li class="list-group-item">Status Kode Peserta : {{diagnosa.response.rujukan.peserta.statusPeserta.kode}}</li>
-    <li class="list-group-item">Tanggal Cetak Kartu : {{diagnosa.response.rujukan.peserta.tglCetakKartu}}</li>
-    <li class="list-group-item">Tanggal Lahir : {{diagnosa.response.rujukan.peserta.tglLahir}}</li>
-    <li class="list-group-item">Tanggal TAT : {{diagnosa.response.rujukan.peserta.tglTAT}}</li>
-    <li class="list-group-item">Tanggal TMT : {{diagnosa.response.rujukan.peserta.tglTMT}}</li>
-    <li class="list-group-item">UMUR SAAT PELAYANAN: {{diagnosa.response.rujukan.peserta.umur.umurSaatPelayanan}}</li>
-    <li class="list-group-item">UMUR SEKARANG : {{diagnosa.response.rujukan.peserta.umur.umurSekarang}}</li>
-    <li class="list-group-item">poli Rujukan Kode : {{diagnosa.response.rujukan.poliRujukan.kode}}</li>
-    <li class="list-group-item">poli Rujukan Nama : {{diagnosa.response.rujukan.poliRujukan.nama}}</li>
-    <li class="list-group-item">Prov Rujukan kode : {{diagnosa.response.rujukan.provPerujuk.kode}}</li>
-    <li class="list-group-item">Prov Rujukan Nama : {{diagnosa.response.rujukan.provPerujuk.nama}}</li>
-    <li class="list-group-item">Tanggal Kunjungan : {{diagnosa.response.rujukan.tglKunjungan}}</li>
-  </ul> -->
-
-  <h5>No Kartu</h5>
-	<form method="post">
-    {% csrf_token %}
-    <input type="text" name="nomorKartu">
-    <button type="submit">SUBMIT</button>
-  </form>
-  <p>{{diagnosa.response.rujukan.peserta.noKartu}}</p>
-  <form method="post">
-    {% csrf_token %}
-    <button id="postData" type="submit">POST DATA</button>
-  </form>
-  <p>{{hasil.metaData.message}}</p>
-  
-  
-	<script src="{% static 'vendor/select2/select2.min.js' %}"></script>
-	<script src="{% static 'vendor/perfect-scrollbar/perfect-scrollbar.min.js' %}"></script>
+  <!-- <p>{{hasil.metaData.message}}</p> -->
+  <script src="{% static 'vendor/select2/select2.min.js' %}"></script>
+  <script src="{% static 'vendor/perfect-scrollbar/perfect-scrollbar.min.js' %}"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
     integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
     crossorigin="anonymous"></script>

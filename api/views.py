@@ -37,7 +37,7 @@ def index(request):
         response = requests.get(url,headers = headers)
         global diag
         diag = response.json()
-        # print(diag)
+        print(diag)
     elif 'nomorKartu' in request.POST:
         consID = '27952'
         # secretKey = 'rsm32h1'
