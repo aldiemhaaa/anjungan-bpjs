@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+    crossorigin="anonymous"></script>
+
+  <title>No Rujukan</title>
+</head>
+
+<body>
+  <h5>No Rujukan</h5>
+  <form method="post">
+    {% csrf_token %}
+    <input type="text" name="diagnosa">
+    <button type="submit">SUBMIT</button>
+  </form>
+ 
+  <!-- <form method="post">
+      {% csrf_token %}
+        <button type="submit">SUBMIT</button>
+    </form> -->
+
+  <ul class="list-group">
+    <li class="list-group-item">Kode Diagnosa : {{diagnosa.response.rujukan.diagnosa.kode}}</li>
+    <li class="list-group-item">Nama Diagnosa : {{diagnosa.response.rujukan.diagnosa.nama}}</li>
+    <li class="list-group-item">keluhan : {{diagnosa.response.rujukan.keluhan}}</li>
+    <li class="list-group-item">No Kunjungan : {{diagnosa.response.rujukan.noKunjungan}}</li>
+    <li class="list-group-item">pelayanan Kode : {{diagnosa.response.rujukan.pelayanan.kode}}</li>
+    <li class="list-group-item">pelayanan Nama : {{diagnosa.response.rujukan.pelayanan.nama}}</li>
+    <li class="list-group-item">nmAsuransi : {{diagnosa.response.rujukan.peserta.cob.nmAsuransi}}</li>
+    <li class="list-group-item">noAsuransi : {{diagnosa.response.rujukan.peserta.cob.noAsuransi}}</li>
+    <li class="list-group-item">tglTAT : {{diagnosa.response.rujukan.peserta.cob.tglTAT}}</li>
+    <li class="list-group-item">tglTMT : {{diagnosa.response.rujukan.peserta.cob.tglTMT}}</li>
+    <li class="list-group-item">Keterangan Hak Kelas : {{diagnosa.response.rujukan.peserta.hakKelas.keterangan}}</li>
+    <li class="list-group-item">Kode Hak Kelas : {{diagnosa.response.rujukan.peserta.hakKelas.kode}}</li>
+    <li class="list-group-item">Informasi Dinsos : {{diagnosa.response.rujukan.peserta.informasi.dinsos}}</li>
+    <li class="list-group-item">No SKTM : {{diagnosa.response.rujukan.peserta.informasi.noSKTM}}</li>
+    <li class="list-group-item">Prolanis PRB : {{diagnosa.response.rujukan.peserta.informasi.prolanisPRB}}</li>
+    <li class="list-group-item">Jenis Peserta :{{diagnosa.response.rujukan.peserta.jenisPeserta.keterangan}}</li>
+    <li class="list-group-item">Kode Peserta :{{diagnosa.response.rujukan.peserta.jenisPeserta.kode}}</li>
+    <li class="list-group-item">No MR : {{diagnosa.response.rujukan.peserta.mr.noMR}}</li>
+    <li class="list-group-item">No Telp : {{diagnosa.response.rujukan.peserta.mr.noTelepon}}</li>
+    <li class="list-group-item">NAMA: {{diagnosa.response.rujukan.peserta.nama}}</li>
+    <li class="list-group-item">NIK: {{diagnosa.response.rujukan.peserta.nik}}</li>
+    <li class="list-group-item">No Kartu: {{diagnosa.response.rujukan.peserta.noKartu}}</li>
+    <li class="list-group-item">PISA : {{diagnosa.response.rujukan.peserta.pisa}}</li>
+    <li class="list-group-item">kdProvider : {{diagnosa.response.rujukan.peserta.provUmum.kdProvider}}</li>
+    <li class="list-group-item">nmProvider : {{diagnosa.response.rujukan.peserta.provUmum.nmProvider}}</li>
+    <li class="list-group-item">Jenis Kelamin : {{diagnosa.response.rujukan.peserta.sex}}</li>
+    <li class="list-group-item">Status Peserta : {{diagnosa.response.rujukan.peserta.statusPeserta.keterangan}}</li>
+    <li class="list-group-item">Status Kode Peserta : {{diagnosa.response.rujukan.peserta.statusPeserta.kode}}</li>
+    <li class="list-group-item">Tanggal Cetak Kartu : {{diagnosa.response.rujukan.peserta.tglCetakKartu}}</li>
+    <li class="list-group-item">Tanggal Lahir : {{diagnosa.response.rujukan.peserta.tglLahir}}</li>
+    <li class="list-group-item">Tanggal TAT : {{diagnosa.response.rujukan.peserta.tglTAT}}</li>
+    <li class="list-group-item">Tanggal TMT : {{diagnosa.response.rujukan.peserta.tglTMT}}</li>
+    <li class="list-group-item">UMUR SAAT PELAYANAN: {{diagnosa.response.rujukan.peserta.umur.umurSaatPelayanan}}</li>
+    <li class="list-group-item">UMUR SEKARANG : {{diagnosa.response.rujukan.peserta.umur.umurSekarang}}</li>
+    <li class="list-group-item">poli Rujukan Kode : {{diagnosa.response.rujukan.poliRujukan.kode}}</li>
+    <li class="list-group-item">poli Rujukan Nama : {{diagnosa.response.rujukan.poliRujukan.nama}}</li>
+    <li class="list-group-item">Prov Rujukan kode : {{diagnosa.response.rujukan.provPerujuk.kode}}</li>
+    <li class="list-group-item">Prov Rujukan Nama : {{diagnosa.response.rujukan.provPerujuk.nama}}</li>
+    <li class="list-group-item">Tanggal Kunjungan : {{diagnosa.response.rujukan.tglKunjungan}}</li>
+  </ul>
+
+
+  <form method="post">
+    {% csrf_token %}
+    <button id="postData" type="submit">POST DATA</button>
+  </form>
+  <p>{{hasil.metaData.message}}</p>
+    
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+    integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+    crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+    integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+    crossorigin="anonymous"></script>
+</body>
+
+</html>
