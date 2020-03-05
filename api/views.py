@@ -9,6 +9,7 @@ import json
 
 diag = {}
 hasil = {}
+nokar = {}
 def index(request):
     if 'diagnosa' in request.POST:
         consID = '27952'
@@ -36,7 +37,36 @@ def index(request):
         response = requests.get(url,headers = headers)
         global diag
         diag = response.json()
-        print(diag)
+        # print(diag)
+    elif 'nomorKartu' in request.POST:
+        consID = '27952'
+        # secretKey = 'rsm32h1'
+        stamp = str(
+                round(
+                    time.time()
+                )
+                )
+        data = consID + '&' + stamp
+        resultdata = data.encode("utf-8")
+        signature = hmac.new(b"rsm32h1", resultdata, digestmod=hashlib.sha256).digest()
+        encodesignature = base64.b64encode(signature).decode()
+        nokartu = request.POST['nomorKartu']
+        global nokar
+        url = 'https://new-api.bpjs-kesehatan.go.id:8080/new-vclaim-rest/Rujukan/RS/Peserta/%s' % nokartu
+        headers = {
+            "Accept":"application/json", 
+            "X-cons-id":consID,
+            "X-timestamp":stamp,
+            "X-signature":encodesignature
+        }
+
+        response = requests.get(url,headers = headers)
+        nokar = response.json()
+        print(nokar)
+
+
+
+
     elif request.POST:
         consID = '27952'
         # secretKey = 'rsm32h1'
@@ -54,7 +84,6 @@ def index(request):
         tglrujukan = diag['response']['rujukan']['tglKunjungan']
         diagAwal = diag['response']['rujukan']['diagnosa']['kode']
         poliTujuan = diag['response']['rujukan']['poliRujukan']['kode']
-        # noRujukan = request.POST['diagnosa']
         dateNow = str(date.today())
         url = 'https://new-api.bpjs-kesehatan.go.id:8080/new-vclaim-rest/SEP/1.1/insert'
         headers = {
@@ -130,3 +159,5 @@ def index(request):
         'hasil': hasil,
     })
 
+def table(request):
+    return render(request,'table.html')
