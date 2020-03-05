@@ -7,8 +7,6 @@ import time
 import tempfile 
 import json
 
-
-
 diag = {}
 hasil = {}
 def index(request):
@@ -25,6 +23,8 @@ def index(request):
         signature = hmac.new(b"rsm32h1", resultdata, digestmod=hashlib.sha256).digest()
         encodesignature = base64.b64encode(signature).decode()
         diagnosa = request.POST['diagnosa']
+        global noRujukan
+        noRujukan = diagnosa
         url = 'https://new-api.bpjs-kesehatan.go.id:8080/new-vclaim-rest/Rujukan/RS/%s' % diagnosa 
         headers = {
             "Accept":"application/json", 
@@ -50,6 +50,12 @@ def index(request):
         signature = hmac.new(b"rsm32h1", resultdata, digestmod=hashlib.sha256).digest()
         encodesignature = base64.b64encode(signature).decode()
         noKartu = diag['response']['rujukan']['peserta']['noKartu']
+        noMR = diag['response']['rujukan']['peserta']['mr']['noMR']
+        tglrujukan = diag['response']['rujukan']['tglKunjungan']
+        diagAwal = diag['response']['rujukan']['diagnosa']['kode']
+        poliTujuan = diag['response']['rujukan']['poliRujukan']['kode']
+        # noRujukan = request.POST['diagnosa']
+        dateNow = str(date.today())
         url = 'https://new-api.bpjs-kesehatan.go.id:8080/new-vclaim-rest/SEP/1.1/insert'
         headers = {
             "Accept":"application/json", 
@@ -62,28 +68,28 @@ def index(request):
               "t_sep": {
                 #   "0001848267911"
                  "noKartu": noKartu,
-                 "tglSep": "2020-03-03",
-                 "ppkPelayanan": "0601R001",
-                 "jnsPelayanan": "2",
-                 "klsRawat": "2",
-                 "noMR": "1120059",
+                 "tglSep": dateNow,
+                 "ppkPelayanan": "0601R001", # ini diambil di fasilitas kesehatan
+                 "jnsPelayanan": "2", # rawat jalan pasti
+                 "klsRawat": "2", # kelas rawat diambil dari kelas bpjs
+                 "noMR": noMR, 
                  "rujukan": {
-                    "asalRujukan": "2",
-                    "tglRujukan": "2020-01-03",
-                    "noRujukan": "0609R0020120B000006",
-                    "ppkRujukan": "0609R002"
+                    "asalRujukan": "2", # faskes 1 , faskes 2 RS
+                    "tglRujukan": tglrujukan, #diambil dari tgl kunjungan
+                    "noRujukan": noRujukan, 
+                    "ppkRujukan": "0609R002" #diambil dari kode faskes
                  },
-                 "catatan": "TEST",
-                 "diagAwal": "C55",
+                 "catatan": "TEST", #diambil dari client
+                 "diagAwal": diagAwal, 
                  "poli": {
-                    "tujuan": "018",
-                    "eksekutif": "0"
+                    "tujuan": poliTujuan,
+                    "eksekutif": "0" #diambil dari client
                  },
                  "cob": {
-                    "cob": "0"
+                    "cob": "0" # null
                  },
                  "katarak": {
-                    "katarak": "0"
+                    "katarak": "0" #null
                  },
                  "jaminan": {
                     "lakaLantas": "0",
@@ -103,11 +109,11 @@ def index(request):
                     }
                  },
                  "skdp": {
-                    "noSurat": "098908",
-                    "kodeDPJP": "30468"
+                    "noSurat": "098908", #diambil di client mau dokter dpjp
+                    "kodeDPJP": "30468" # ^^ referensinya di dokter dpjp
                  },
-                 "noTelp": "09809809809",
-                 "user": "XX"
+                 "noTelp": "09809809809", #isi dengan no hp client
+                 "user": "XX" # null
               }
            }
         })               
@@ -117,7 +123,7 @@ def index(request):
         global hasil
         hasil = response2.json()
         # message = result['metaData']['message']
-        # print(message)
+        print(hasil)
     #     print(stamp)
     #     print(encodesignature)
         # print(int(noKartu))
