@@ -157,6 +157,7 @@ def index(request):
     return render(request,'index.html', {
         'diagnosa':diag,
         'hasil': hasil,
+        'nokar': nokar
     })
 
 def table(request):
