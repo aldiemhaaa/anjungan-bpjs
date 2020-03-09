@@ -7,9 +7,10 @@ import time
 import tempfile 
 import json
 
-diag = {}
-hasil = {}
-nokar = {}
+diag = "Data Peserta Kosong"
+hasil = "Result Kosong"
+nokar = "Data Peserta Kosong(2)"
+msg = ""
 def index(request):
     if 'diagnosa' in request.POST:
         consID = '27952'
@@ -23,21 +24,26 @@ def index(request):
         resultdata = data.encode("utf-8")
         signature = hmac.new(b"rsm32h1", resultdata, digestmod=hashlib.sha256).digest()
         encodesignature = base64.b64encode(signature).decode()
-        diagnosa = request.POST['diagnosa']
-        global noRujukan
-        noRujukan = diagnosa
-        url = 'https://new-api.bpjs-kesehatan.go.id:8080/new-vclaim-rest/Rujukan/RS/%s' % diagnosa 
-        headers = {
-            "Accept":"application/json", 
-            "X-cons-id":consID,
-            "X-timestamp":stamp,
-            "X-signature":encodesignature
-        }
+        try:
+            diagnosa = request.POST['diagnosa']
+            global noRujukan
+            noRujukan = diagnosa
+            url = 'https://new-api.bpjs-kesehatan.go.id:8080/new-vclaim-rest/Rujukan/RS/%s' % diagnosa 
+            headers = {
+                "Accept":"application/json", 
+                "X-cons-id":consID,
+                "X-timestamp":stamp,
+                "X-signature":encodesignature
+            }
 
-        response = requests.get(url,headers = headers)
-        global diag
-        diag = response.json()
-        print(diag)
+            response = requests.get(url,headers = headers)
+            global diag
+            diag = response.json()
+            print(diag)
+        except:
+            diag = 'Data Kosong'
+            
+
     elif 'nomorKartu' in request.POST:
         consID = '27952'
         # secretKey = 'rsm32h1'
@@ -157,7 +163,8 @@ def index(request):
     return render(request,'index.html', {
         'diagnosa':diag,
         'hasil': hasil,
-        'nokar': nokar
+        'nokar': nokar,
+        'field': msg,
     })
 
 def table(request):
