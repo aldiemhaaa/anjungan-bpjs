@@ -14,119 +14,7 @@
     integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
   <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
     crossorigin="anonymous"></script>
-  <!-- <style>
-    @import url(https://fonts.googleapis.com/css?family=Roboto:300);
-  .flexlogin{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-.login-page {
-  width: 450px;
-  padding: 13% 0 0;
-  margin: auto;
-}
-.form {
-  position: relative;
-  z-index: 1;
-  background: #FFFFFF;
-  max-width: 450px;
-  height:360px;
-  margin: 0 auto 100px;
-  padding: 45px;
-  text-align: center;
-  box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
-}
 
-.result{
-  padding:0% 0 0!important;
-  margin: auto;
-}
-.form input {
-  font-family: "Roboto", sans-serif;
-  outline: 0;
-  background: #f2f2f2;
-  width: 100%;
-  border: 0;
-  margin: 50px 10px 90px 0px;
-  padding: 15px;
-  box-sizing: border-box;
-  font-size: 18px;
-}
-.form button {
-  font-family: "Roboto", sans-serif;
-  text-transform: uppercase;
-  outline: 0;
-  background: #4CAF50;
-  width: 100%;
-  border: 0;
-  padding: 15px;
-  color: #FFFFFF;
-  font-size: 14px;
-  -webkit-transition: all 0.3 ease;
-  transition: all 0.3 ease;
-  cursor: pointer;
-}
-.form button:hover,.form button:active,.form button:focus {
-  background: #43A047;
-}
-.form .message {
-  margin: 15px 0 0;
-  color: #b3b3b3;
-  font-size: 12px;
-}
-.form .message a {
-  color: #4CAF50;
-  text-decoration: none;
-}
-.form .register-form {
-  display: none;
-}
-.container {
-  position: relative;
-  z-index: 1;
-  max-width: 300px;
-  margin: 0 auto;
-}
-.container:before, .container:after {
-  content: "";
-  display: block;
-  clear: both;
-}
-.container .info {
-  margin: 50px auto;
-  text-align: center;
-}
-.container .info h1 {
-  margin: 0 0 15px;
-  padding: 0;
-  font-size: 36px;
-  font-weight: 300;
-  color: #1a1a1a;
-}
-.container .info span {
-  color: #4d4d4d;
-  font-size: 12px;
-}
-.container .info span a {
-  color: #000000;
-  text-decoration: none;
-}
-.container .info span .fa {
-  color: #EF3B3A;
-}
-body {
-  background: #76b852; /* fallback for old browsers */
-  background: -webkit-linear-gradient(right, #76b852, #8DC26F);
-  background: -moz-linear-gradient(right, #76b852, #8DC26F);
-  background: -o-linear-gradient(right, #76b852, #8DC26F);
-  background: linear-gradient(to left, #76b852, #8DC26F);
-  font-family: "Roboto", sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;      
-}
-
-  </style> -->
   <title>No Rujukan</title>
 </head>
 
@@ -134,13 +22,6 @@ body {
 <div class="flexlogin">
   <div class="login-page">
     <div class="form">
-      <!-- <form class="login-form" method="post" onsubmit="openModal()" id="myForm">
-        <h5 id="textForm">Cari Berdasarkan Rujukan</h5>
-        {% csrf_token %}
-        <input type="text" placeholder="Nomor Rujukan" name="diagnosa"/>
-        <button type="submit" id="mitRujukan">SUBMIT</button>
-      </form> -->
-
       <form class="form-inline" method="post">
         {% csrf_token %}
         <input type="text" placeholder="Nomor Rujukan" name="diagnosa"/>
@@ -161,55 +42,55 @@ body {
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-              <button type="button" class="btn btn-primary">Save changes</button>
+              <form method="post">
+                {% csrf_token %}
+                <button id="postData" type="submit">POST NO RUJUKAN</button>
+              </form>
             </div>
-          </div><!-- /.modal-content -->
-        </div><!-- /.modal-dialog -->
-      </div><!-- /.mo
-    </div>
-  </div>
-  <button type="submit" id="testingapi">TEST</button>
+          </div>
+        </div>
+      </div>
 
-  <!-- <div class="login-page">
-    <div class="form">
-      <form class="login-form" method="post" action="#">
+      <!-- No Kartu -->
+      <form class="login-form" method="post">
         <h5 >Cari Berdasarkan Nomor Kartu</h5>
         {% csrf_token %}
         <input type="text" placeholder="Nomor Kartu" name="nomorKartu"/>
-        <button type="submit">SUBMIT</button>
+        <button type="submit" class="btn btn-primary">SUBMIT</button>
       </form>
+      <form onsubmit="openModalNomorKartu()" id="myFormNoKartu" method="post">
+        {% csrf_token %}
+        <button type="submit">SHOW DETAIL</button>
+      </form>
+
+      <!-- MODALNYA -->
+      <div class="modal fade" tabindex="-1" role="dialog" id="myModalNoKartu">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+              <h4 class="modal-title">Modal title</h4>
+            </div>
+            <div class="modal-body">
+              <p>{{hasil.metaData.message}}</p>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+              <!-- <form method="post">
+                {% csrf_token %}
+                <button id="postData" type="submit">POST NO KARTU</button>
+              </form> -->
+              <button>TESTING</button>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
-</div>
-<div class="login-page" id="result">
-  <div class="form">
-    <p>NAMA : {{diagnosa.response.rujukan.peserta.nama}}</p>
-    <p>NO KARTU : {{diagnosa.response.rujukan.peserta.noKartu}}</p>
-    <form method="post">
-      {% csrf_token %}
-      <button id="postData" type="submit">POST NO RUJUKAN</button>
-    </form>
-  </div>
-</div> -->
-<!-- <div class="login-page">
-  <div class="form">
-    <p>{{diagnosa.response.rujukan.peserta.noKartu}}</p>
-    <p>{{hasil.metaData.message}}</p>
-  </div>
-</div> -->
-<!--     
-    <h5>No Rujukan</h5>
-    <form method="post">
-      {% csrf_token %}
-      <input type="text" name="diagnosa">
-      <button type="submit" v-on:click="isHidden = false">SUBMIT</button>
-    </form> -->
-    <!-- <h5>No Kartu</h5>
-    <form method="post">
-      {% csrf_token %}
-      <input type="text" name="nomorKartu">
-      <button type="submit" v-on:click="second = false">SUBMIT</button>
-    </form> -->
+</div> 
+
+
+  
 
   <!-- <p>{{hasil.metaData.message}}</p> -->
   <script>
@@ -222,6 +103,11 @@ body {
       // $("#result").hide()
       $('#myForm').on('submit', function(e){
         $('#myModal').modal('show');
+        e.preventDefault();
+
+      });
+      $('#myFormNoKartu').on('submit', function(e){
+        $('#myModalNoKartu').modal('show');
         e.preventDefault();
 
       });
