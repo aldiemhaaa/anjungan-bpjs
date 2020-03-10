@@ -38,23 +38,34 @@
 
 <body>
   <div class="login-page">
+    <button id="tesint">TESTING</button>
     <div class="form">
       <!-- NO RUJUKAN -->
       <h4>NOMOR RUJUKAN</h4>
-      <form class="form-inline" method="post">
+      <form class="form-inline1" method="post">
         {% csrf_token %}
         <input type="text" placeholder="Nomor Rujukan" name="diagnosa" required/>
-        <button type="submit" class="btnsubmit">Submit</button>
+        <button type="submit" class="btnsubmit" id="buttonin">Submit</button>
       </form>
-      <form id="myForm" method="post">
-        <button type="submit">SHOW DETAIL</button>
-      </form>
+
+      <div style="display: flex;">
+        <form id="myForm" method="post">
+          <button type="submit">CREATE SEP</button>
+        </form>
+
+          <!-- CETAK SEP -->
+        <form method="post" action="/printsep/">
+          {% csrf_token %}
+          <input type="hidden" value="{{hasil.metaData.message}}" name="sep">
+          <button type="submit">CETAK SEP</button>
+        </form>
+      </div>
     </div>
 
       <!-- NO KARTU -->
     <div class="form">
       <h4>NOMOR KARTU</h4>
-      <form class="form-inline" method="post">
+      <form class="form-inline" id="member1" method="post">
         {% csrf_token %}
         <input type="text" placeholder="Nomor Kartu" name="nomorKartu" required/>
         <button type="submit" class="btnsubmit">Submit</button>
@@ -74,15 +85,19 @@
           <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
         </div>
         <div class="modal-body">
-          <p>{{diagnosa}}</p>
-      <p>{{hasil}}</p>
+          <p>NAMA     : {{diagnosa.response.rujukan.peserta.nama}}</p>
+          <p>NO KARTU : {{diagnosa.response.rujukan.peserta.noKartu}}</p>
+          <p>NO RUJUKAN : {{noRujukan}}</p>
+      <!-- <p>{{hasil}}</p> -->
 
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          <!-- <form method="post" action="/printsep/"> -->
           <form method="post">
-            {% csrf_token %}
-            <button id="postData" type="submit">POST NO RUJUKAN</button>
+              {% csrf_token %}
+            <!-- <input type="text" value="{{hasil}}" name="sep"> -->
+            <button id="postData" type="submit">CREATE SEP</button>
           </form>
         </div>
       </div><!-- /.modal-content -->
@@ -114,7 +129,13 @@
 
   <script>
     $(document).ready(function() {
+      // var consID = '27952'
+      // var stamp = 
 
+      $('#buttonin').on('click',function(){
+        $(this).closest("member1").remove();
+        console.log('teetz')
+      })
 
       $('#myForm').on('submit', function(e){
         $('#myModal').modal('show');
@@ -127,6 +148,23 @@
         e.preventDefault();
 
       });
+      $('#tesint').on('click',function(){
+        $.ajax({
+          url: 'https://new-api.bpjs-kesehatan.go.id:8080/new-vclaim-rest/Rujukan/RS/Peserta/0609R0020120B000006',
+          type:'get',
+          // jsonpCallback: 'JSON_CALLBACK',
+          headers: {
+            "Accept":"application/json", 
+            "X-cons-id":'27952',
+            "X-timestamp":'1583812349',
+            "X-signature":'n+aZeWoA7IIdVFoLYc0QhzwrQKLF8q618jTc6cNWRl0='
+          },
+          success: function(data) {
+            console.log(data);
+          }
+      });
+      })
+     
     });
   </script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"

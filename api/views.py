@@ -8,9 +8,10 @@ import tempfile
 import json
 
 diag = "Data Peserta Kosong"
-hasil = "Result Kosong"
+hasil = ""
 nokar = "Data Peserta Kosong(2)"
 msg = ""
+noRujukan = ""
 def index(request):
     if 'diagnosa' in request.POST:
         consID = '27952'
@@ -40,6 +41,9 @@ def index(request):
             global diag
             diag = response.json()
             print(diag)
+            # print(consID)
+            print(stamp)
+            print(encodesignature)
         except:
             diag = 'Data Kosong'
             
@@ -70,9 +74,6 @@ def index(request):
         nokar = response.json()
         print(nokar)
 
-
-
-
     elif request.POST:
         consID = '27952'
         # secretKey = 'rsm32h1'
@@ -101,7 +102,6 @@ def index(request):
         dataKey = json.dumps({
            "request": {
               "t_sep": {
-                #   "0001848267911"
                  "noKartu": noKartu,
                  "tglSep": dateNow,
                  "ppkPelayanan": "0601R001", # ini diambil di fasilitas kesehatan
@@ -165,7 +165,15 @@ def index(request):
         'hasil': hasil,
         'nokar': nokar,
         'field': msg,
+        'noRujukan':noRujukan,
     })
 
 def table(request):
     return render(request,'table.html')
+
+def printsep(request):
+    data = request.POST.get('sep')
+    print(data)
+    return render(request,'printsep.html',{
+        'data':data
+    })
