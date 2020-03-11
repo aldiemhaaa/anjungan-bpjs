@@ -27,6 +27,7 @@ def index(request):
         encodesignature = base64.b64encode(signature).decode()
         try:
             diagnosa = request.POST['diagnosa']
+            global diag
             global noRujukan
             noRujukan = diagnosa
             url = 'https://new-api.bpjs-kesehatan.go.id:8080/new-vclaim-rest/Rujukan/RS/%s' % diagnosa 
@@ -38,15 +39,13 @@ def index(request):
             }
 
             response = requests.get(url,headers = headers)
-            global diag
             diag = response.json()
             print(diag)
             # print(consID)
             print(stamp)
             print(encodesignature)
         except:
-            diag = 'Data Kosong'
-            
+            return "none"
 
     elif 'nomorKartu' in request.POST:
         consID = '27952'
@@ -154,7 +153,9 @@ def index(request):
         })               
                                  
                       
-        response2 = requests.post(url,data = dataKey ,headers = headers)
+        response2 = requests.post(url,data = dataKey ,headers = headers) #ngirim ke server BPJS untuk insert SEP
+
+        # clientresponse = requests.post('api server client', data = 'data clientnya apa', headers = 'headersnya apa') # ini untuk ke client
         global hasil
         hasil = response2.json()
         print(hasil)
