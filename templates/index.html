@@ -86,8 +86,8 @@
           <p>NO RUJUKAN : {{noRujukan}}</p>
           <form method="post">
             {% csrf_token %}
-            <input type="text" name="faskes" placeholder="Kode Faskes">
-            <input type="text" placeholder="Catatan" name="catatan">
+            <input type="text" name="faskes" placeholder="Kode Faskes" required>
+            <input type="text" placeholder="Catatan" name="catatan" required>
             <button type="submit">Submit faskes</button>
           </form>
 
@@ -112,7 +112,7 @@
              <!-- CETAK SEP -->
           <form method="post" action="/printsep/">
             {% csrf_token %}
-            <input type="text" value="{{hasil}}" name="sep">
+            <input type="hidden" value="{{hasil}}" name="sep">
             <button type="submit">CETAK SEP</button>
           </form>
         </div>
