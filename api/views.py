@@ -2,7 +2,7 @@ from django.shortcuts import render
 from datetime import date
 import requests,hmac,hashlib,base64,time, tempfile , json ,random
 
-diag, hasil, nokar, msg, noRujukan, fas, ppkPelayanan, poliRujukan, pelayanan, kelasRawat, comment, kodeSpesialisRujukan, dpjp = "             "
+diag, hasil, nokar, msg, noRujukan, fas, ppkPelayanan, poliRujukan, pelayanan, kelasRawat, comment, kodeSpesialisRujukan, dpjp = " "*13
 dateNow = str(date.today())
 
 # Header API BPJS
@@ -18,28 +18,21 @@ def generateHeader():
     resultdata = data.encode("utf-8")
     signature = hmac.new(b"rsm32h1", resultdata, digestmod=hashlib.sha256).digest()
     encodesignature = base64.b64encode(signature).decode()
-    return consID,stamp,encodesignature
-
-def getApi(endpoint):
-    # url = 'httpsL//new-api.bpjs-kesehatan.go.id:8080/new-vclaim-rest/'+endpoint+diagnosa
     headers = {
         "Accept":"application/json", 
-        "X-cons-id":generateHeader()[0],
-        "X-timestamp":generateHeader()[1],
-        "X-signature":generateHeader()[2]
+        "X-cons-id":consID,
+        "X-timestamp":stamp,
+        "X-signature":encodesignature
     }
-    response = requests.get(endpoint,headers = headers)
+    return consID,stamp,encodesignature,headers
+
+def getApi(endpoint):
+    response = requests.get(endpoint,headers = generateHeader()[3])
     diag = response.json()
     return diag
     
 def postApi(endpoint,dataKey):
-    headers = {
-        "Accept":"application/json", 
-        "X-cons-id":generateHeader()[0],
-        "X-timestamp":generateHeader()[1],
-        "X-signature":generateHeader()[2]
-    }
-    response = requests.post(endpoint,data = dataKey, headers = headers)
+    response = requests.post(endpoint,data = dataKey, headers = generateHeader()[3])
     hasil = response.json()
     return hasil
 
@@ -83,10 +76,7 @@ def index(request):
             faskes = request.POST['faskes']
             url = 'https://new-api.bpjs-kesehatan.go.id:8080/new-vclaim-rest/referensi/faskes/%s/2' % faskes 
             fas = getApi(url)
-            # print(fas)
             ppkPelayanan = fas['response']['faskes'][0]['kode']
-            # print(ppkPelayanan)
-            # print(comment)
         except:
             return "none"
 
@@ -159,10 +149,7 @@ def index(request):
                  "user": "XX" # null
               }
            }
-        })                        
-        # response2 = requests.post(url,data = dataKey ,headers = headers) #ngirim ke server BPJS untuk insert SEP
-
-        # clientresponse = requests.post('api server client', data = 'data clientnya apa', headers = 'headersnya apa') # ini untuk ke client
+        })
         global hasil
         hasil = postApi(url,dataKey)
         print(hasil)
