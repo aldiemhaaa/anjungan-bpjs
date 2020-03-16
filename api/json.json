@@ -1,11 +1,8 @@
 {'metaData': {'code': '200', 'message': 'Sukses'
-    }, 'response': {'list': [
-            {'kode': '30468', 'nama': 'Dr. M. Hafidh Komar, SpB-KBD'
-            },
-            {'kode': '279456', 'nama': 'SARUP SINGH'
-            },
-            {'kode': '301054', 'nama': 'DR EFMAN EFRAIM ULRICH M'
-            }
-        ]
+    }, 'response': {'sep': {'catatan': 'testing aja', 'diagnosa': 'C55 - Malignant neoplasm of uterus, part unspecified', 'informasi': {'dinsos': None, 'noSKTM': None, 'prolanisPRB': None
+            }, 'jnsPelayanan': 'R.Jalan', 'kelasRawat': '-', 'noRujukan': None, 'noSep': '0601R0010320V011277', 'penjamin': '-', 'peserta': {'asuransi': '-', 'hakKelas': 'Kelas 2', 'jnsPeserta': 'PEGAWAI SWASTA', 'kelamin': 'Perempuan', 'nama': 'RUSIMI', 'noKartu': '0001848267911', 'noMr': '1120059
+            }', 'tglLahir': '1976-09-10'
+        }, 'poli': 'BEDAH DIGESTIF ', 'poliEksekutif': 'Tidak', 'tglSep': '2020-03-13'
     }
+}
 }

@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from datetime import date
 import requests,hmac,hashlib,base64,time, tempfile , json ,random
+from .models import generatekey
 
 diag, hasil, nokar, msg, noRujukan, fas, ppkPelayanan, poliRujukan, pelayanan, kelasRawat, comment, kodeSpesialisRujukan, dpjp = " "*13
 dateNow = str(date.today())
@@ -39,6 +40,7 @@ def postApi(endpoint,dataKey):
 def index(request):
     if 'diagnosa' in request.POST:
         try:
+           
             diagnosa = request.POST['diagnosa']
             url = 'https://new-api.bpjs-kesehatan.go.id:8080/new-vclaim-rest/Rujukan/RS/%s' % diagnosa 
             global diag, noRujukan, poliRujukan, pelayanan, kelasRawat, kodeSpesialisRujukan
@@ -47,13 +49,12 @@ def index(request):
 
             # listNumber = open('list_number.txt',"w+")
             # for i in range(100):
-            #     pin = ''.join(random.choice('0123456789') for _ in range(6))
             #     listNumber.write(pin)
             # listNumber.close()
 
             
             # print(pin + " ini random numbernya")
-
+            # print(generateKey())
             poliRujukan = diag['response']['rujukan']['provPerujuk']['kode']
             pelayanan = diag['response']['rujukan']['pelayanan']['kode']
             kelasRawat = diag['response']['rujukan']['peserta']['hakKelas']['kode']
@@ -67,7 +68,8 @@ def index(request):
         url = 'https://new-api.bpjs-kesehatan.go.id:8080/new-vclaim-rest/Rujukan/RS/Peserta/%s' % nokartu
         
         nokar = getApi(url)
-        print(nokar)
+        diag = nokar
+        # print(nokar)
 
     elif 'faskes' in request.POST:
         try:
@@ -82,12 +84,11 @@ def index(request):
 
 
     elif 'dpjp' in request.POST:
-        try:
-            global dpjp
-            url = 'https://new-api.bpjs-kesehatan.go.id:8080/new-vclaim-rest/referensi/dokter/pelayanan/'+ pelayanan + '/tglPelayanan/'+ dateNow + '/Spesialis/' + kodeSpesialisRujukan
-            dpjp = getApi(url)
-        except:
-            return "none"
+        global dpjp
+        url = 'https://new-api.bpjs-kesehatan.go.id:8080/new-vclaim-rest/referensi/dokter/pelayanan/'+ pelayanan + '/tglPelayanan/'+ dateNow + '/Spesialis/' + kodeSpesialisRujukan
+        print(url)
+        dpjp = getApi(url)
+        print(dpjp)
 
     elif request.POST:
         noKartu = diag['response']['rujukan']['peserta']['noKartu']
@@ -96,6 +97,10 @@ def index(request):
         diagAwal = diag['response']['rujukan']['diagnosa']['kode']
         poliTujuan = diag['response']['rujukan']['poliRujukan']['kode']
         noDpjp = dpjp['response']['list'][0]['kode']
+        noSurat = str(generateKey())
+        print(noSurat)
+        # print(noSurat)
+
         url = 'https://new-api.bpjs-kesehatan.go.id:8080/new-vclaim-rest/SEP/1.1/insert'
         dataKey = json.dumps({
            "request": {
@@ -142,18 +147,18 @@ def index(request):
                     }
                  },
                  "skdp": {
-                    "noSurat": "098908", #diambil di client mau dokter dpjp
+                    "noSurat": noSurat, #diambil di client mau dokter dpjp
                     "kodeDPJP": noDpjp # ^^ referensinya di dokter dpjp
                  },
                  "noTelp": "09809809809", #isi dengan no hp client
-                 "user": "XX" # null
+                 "user": "ANJUNGAN" # null
               }
            }
         })
         global hasil
         hasil = postApi(url,dataKey)
         print(hasil)
-   
+        # print(generateKey())
     return render(request,'index.html', {
         'diagnosa':diag,
         'hasil': hasil,
@@ -173,3 +178,24 @@ def printsep(request):
     return render(request,'printsep.html',{
         'data':data
     })
+
+
+def random_with_N_digits(n):
+    range_start = 10**(n-1)
+    range_end = (10**n)-1
+    return random.randint(range_start, range_end)
+
+
+def generateKey():
+  
+    waktu = round(time.time())
+    strWaktu = str(waktu)
+    resultWaktu = strWaktu[4:10]
+    lists = generatekey.objects.all()
+    if strWaktu not in lists:
+        generatekey.objects.create(key = resultWaktu)
+        resultBaru = list(reversed(generatekey.objects.all()))
+        hasil = resultBaru[0]
+        return hasil
+    else:
+        return False    

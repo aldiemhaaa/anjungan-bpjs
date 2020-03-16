@@ -59,7 +59,7 @@
     </div>
 
       <!-- NO KARTU -->
-    <!-- <div class="form">
+    <div class="form">
       <h4>NOMOR KARTU</h4>
       <form class="form-inline" id="member1" method="post">
         {% csrf_token %}
@@ -70,7 +70,7 @@
       <form id="myFormKartu" method="post">
         <button type="submit">SHOW DETAIL</button>
       </form>
-    </div> -->
+    </div>
   </div>
 
 <!-- MODAL DARI NOMOR RUJUKAN -->
@@ -122,25 +122,51 @@
 
 
   <!-- MODAL DARI NOMOR KARTU -->
-  <!-- <div class="modal fade" tabindex="-1" role="dialog" id="modalKartu">
+  <div class="modal fade" tabindex="-1" role="dialog" id="modalKartu">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
         </div>
         <div class="modal-body">
-          <p>{{nokar}}</p>
-          <p>{{hasil}}</p>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          <p>NAMA     : {{diagnosa.response.rujukan.peserta.nama}}</p>
+          <p>NO KARTU : {{diagnosa.response.rujukan.peserta.noKartu}}</p>
+          <p>NO RUJUKAN : {{noRujukan}}</p>
           <form method="post">
             {% csrf_token %}
+            <input type="text" name="faskes" placeholder="Kode Faskes" required>
+            <input type="text" placeholder="Catatan" name="catatan" required>
+            <button type="submit">Submit faskes</button>
+          </form>
+
+          <form method="post">
+            {% csrf_token %}
+            <input type="hidden" name="dpjp">
+            <!-- <input type="text" placeholder="Catatan" name="catatan"> -->
+            <button type="submit">Submit DPJP</button>
+          </form>
+      <!-- <p>{{hasil}}</p> -->
+
+        </div>
+        <div class="modal-footer">
+          <!-- <form method="post" action="/printsep/"> -->
+      
+          <!-- <iframe name="createsep" style="display:none;"></iframe>       -->
+          <form method="post">
+              {% csrf_token %}
+            <button id="postData" type="submit">CREATE SEP</button>
+          </form>
+
+             <!-- CETAK SEP -->
+          <form method="post" action="/printsep/">
+            {% csrf_token %}
+            <input type="hidden" value="{{hasil}}" name="sep">
+            <button type="submit">CETAK SEP</button>
           </form>
         </div>
-      </div>
-    </div>
-  </div> -->
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div><!-- /.mo -->
 
   <script>
     $(document).ready(function() {
