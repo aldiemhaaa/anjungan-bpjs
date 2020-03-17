@@ -39,116 +39,14 @@ def postApi(endpoint,dataKey):
     return hasil
 
 def index(request):
-    if 'diagnosa' in request.POST:
-        try:
-           
-            diagnosa = request.POST['diagnosa']
-            url = 'https://new-api.bpjs-kesehatan.go.id:8080/new-vclaim-rest/Rujukan/RS/%s' % diagnosa 
-            global diag, noRujukan, poliRujukan, pelayanan, kelasRawat, kodeSpesialisRujukan
-            noRujukan = diagnosa
-            diag = getApi(url)
-            poliRujukan = diag['response']['rujukan']['provPerujuk']['kode']
-            pelayanan = diag['response']['rujukan']['pelayanan']['kode']
-            kelasRawat = diag['response']['rujukan']['peserta']['hakKelas']['kode']
-            kodeSpesialisRujukan = diag['response']['rujukan']['poliRujukan']['kode']
-            print(diag)
-        except:
-            return "none"
-
-    elif 'nomorKartu' in request.POST:
+    global diag, hasil, nokar, msg, noRujukan, fas, ppkPelayanan, poliRujukan, pelayanan, kelasRawat, comment, kodeSpesialisRujukan, dpjp,noSep,hasil
+    if 'nomorKartu' in request.POST:
         global nokar
         nokartu = request.POST['nomorKartu']
         url = 'https://new-api.bpjs-kesehatan.go.id:8080/new-vclaim-rest/Rujukan/RS/Peserta/%s' % nokartu
         
         nokar = getApi(url)
         diag = nokar
-        # print(nokar)
-
-    # elif 'faskes' in request.POST:
-    #     try:
-    #         global comment, fas, ppkPelayanan
-    #         comment = request.POST['catatan']
-    #         faskes = request.POST['faskes']
-    #         url = 'https://new-api.bpjs-kesehatan.go.id:8080/new-vclaim-rest/referensi/faskes/%s/2' % faskes 
-    #         fas = getApi(url)
-    #         ppkPelayanan = fas['response']['faskes'][0]['kode']
-    #     except:
-    #         return "none"
-
-
-    # elif 'dpjp' in request.POST:
-    #     global dpjp
-    #     url = 'https://new-api.bpjs-kesehatan.go.id:8080/new-vclaim-rest/referensi/dokter/pelayanan/'+ pelayanan + '/tglPelayanan/'+ dateNow + '/Spesialis/' + kodeSpesialisRujukan
-    #     print(url)
-    #     dpjp = getApi(url)
-    #     print(dpjp)
-
-    # elif request.POST:
-    #     global noSep
-    #     noKartu = diag['response']['rujukan']['peserta']['noKartu']
-    #     noMR = diag['response']['rujukan']['peserta']['mr']['noMR']
-    #     tglrujukan = diag['response']['rujukan']['tglKunjungan']
-    #     diagAwal = diag['response']['rujukan']['diagnosa']['kode']
-    #     poliTujuan = diag['response']['rujukan']['poliRujukan']['kode']
-    #     noDpjp = dpjp['response']['list'][0]['kode']
-    #     noSurat = str(generateKey())
-    #     print(noSurat)
-    #     # print(noSurat)
-
-    #     url = 'https://new-api.bpjs-kesehatan.go.id:8080/new-vclaim-rest/SEP/1.1/insert'
-    #     dataKey = json.dumps({
-    #        "request": {
-    #           "t_sep": {
-    #              "noKartu": noKartu,
-    #              "tglSep": dateNow,
-    #              "ppkPelayanan": ppkPelayanan, # ini diambil di fasilitas kesehatan
-    #              "jnsPelayanan": pelayanan, # rawat jalan pasti
-    #              "klsRawat": kelasRawat, # kelas rawat diambil dari kelas bpjs
-    #              "noMR": noMR, 
-    #              "rujukan": {
-    #                 "asalRujukan": "2", # faskes 1 , faskes 2 RS
-    #                 "tglRujukan": tglrujukan, #diambil dari tgl kunjungan
-    #                 "noRujukan": noRujukan, 
-    #                 "ppkRujukan": poliRujukan #diambil dari kode faskes
-    #              },
-    #              "catatan": comment, #diambil dari client
-    #              "diagAwal": diagAwal, 
-    #              "poli": {
-    #                 "tujuan": poliTujuan,
-    #                 "eksekutif": "0" #diambil dari client
-    #              },
-    #              "cob": {
-    #                 "cob": "0" # null
-    #              },
-    #              "katarak": {
-    #                 "katarak": "0" #null
-    #              },
-    #              "jaminan": {
-    #                 "lakaLantas": "0",
-    #                 "penjamin": {
-    #                     "penjamin": "",
-    #                     "tglKejadian": "",
-    #                     "keterangan": "",
-    #                     "suplesi": {
-    #                         "suplesi": "0",
-    #                         "noSepSuplesi": "",
-    #                         "lokasiLaka": {
-    #                             "kdPropinsi": "",
-    #                             "kdKabupaten": "",
-    #                             "kdKecamatan": ""
-    #                             }
-    #                     }
-    #                 }
-    #              },
-    #              "skdp": {
-    #                 "noSurat": '123456', #diambil di client mau dokter dpjp
-    #                 "kodeDPJP": noDpjp # ^^ referensinya di dokter dpjp
-    #              },
-    #              "noTelp": "09809809809", #isi dengan no hp client
-    #              "user": "ANJUNGAN" # null
-    #           }
-    #        }
-    #     })
     #     global hasil
     #     hasil = postApi(url,dataKey)
     #     # print(hasil)
@@ -197,7 +95,7 @@ def generateKey():
     if strWaktu not in lists:
         generatekey.objects.create(key = resultWaktu)
         resultBaru = list(reversed(generatekey.objects.all()))
-        hasil = resultBaru[0]
+        hasil = resultBaru[0] 
         return hasil
     else:
         return False    
@@ -205,7 +103,7 @@ def generateKey():
 def cetakSep(request):
     try: 
         # get variable global
-        global diag, noRujukan, poliRujukan, pelayanan, kelasRawat, kodeSpesialisRujukan,comment, fas, ppkPelayanan, dpjp,noSep,hasil
+        global diag, hasil, nokar, msg, noRujukan, fas, ppkPelayanan, poliRujukan, pelayanan, kelasRawat, comment, kodeSpesialisRujukan, dpjp,noSep,hasil
         # get input from user
         diagnosa = request.POST.get('rujuk')
         # faskes
@@ -290,7 +188,7 @@ def cetakSep(request):
                     }
                  },
                  "skdp": {
-                    "noSurat": '123456', # generate from stamp 
+                    "noSurat": noSurat, # generate from stamp 
                     "kodeDPJP": noDpjp # ^^ referensinya di dokter dpjp
                  },
                  "noTelp": "09809809809", #isi dengan no hp client
@@ -300,9 +198,41 @@ def cetakSep(request):
         })
         hasil = postApi(urlInsertSep,dataKey)
         print(hasil)
+        
+
+        try:
+            result = hasil['metaData']['message']
+            print(result)
+            print(noSurat)
+        except AttributeError:
+            result = hasil['response']['noSep']
+            Sep.objects.create(nomorsep = result,nomorsuratkontrol = noSurat)
+            
+        # generate nomor surat dan post ke database berbarengan post noSep ke database
+        # try: 
+        # result = hasil['response']['noSep']
+        #     # resultnoSep = hasil['response']['noSep']
+        #     # Sep.objects.create(nomorsep = resultnoSep, nomorsuratkontrol = generatekey())
+        # except TypeError:
+        #     result = "NO SEP SUDAH ADA"
+        #     return result
+            # print(hasil)
+            # listnoSep = Sep.objects.all()
+            # hasilnya = hasil['metaData']['message'] 
+            # result = hasilnya.rsplit(' ', 1)[1]
+            # filterSep = Sep.objects.filter(key = result)
+            # print(filterSep)
+            # print(Sep.objects.all())
+            # if result == filterSep:
+            #     print(result +" ini sudah ada di dalam database, juga sudah dicetak")
+            # else:
+            #     Sep.objects.create(key = result)
+            #     print(result+" ini ini ")
+        # print(generateKey())
     except:
         return False
 
     return render(request,'cetaksep.html',{
         'rujukan':diag,
+        # 'hasil':hasil
     })

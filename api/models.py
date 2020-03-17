@@ -10,6 +10,7 @@ class generatekey(models.Model):
 
 
 class Sep(models.Model):
-    key = models.CharField(max_length=19,default="")
+    nomorsep = models.CharField(max_length=19,default="")
+    nomorsuratkontrol = models.CharField(max_length=6,default="")
     def __str__(self):
-        return self.key
+        return self.nomorsuratkontrol
