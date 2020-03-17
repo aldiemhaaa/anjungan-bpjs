@@ -6,7 +6,5 @@ from api import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.index),
-    path('table/', views.table),
-    path('printsep/', views.printsep),
-    path('generatekey/', views.generateKey)
+    path('cetaksep/',views.cetakSep),
 ]

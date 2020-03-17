@@ -38,43 +38,29 @@
 
 <body>
   <div class="login-page">
-    <!-- <button id="tesint">TESTING</button> -->
     <div class="form">
       <!-- NO RUJUKAN -->
-      <h4>NOMOR RUJUKAN</h4>
-      <!-- <iframe name="sbmtnorujukan" style="display:none;"></iframe> -->
-      <form class="form-inline1" method="post">
+      <h3>NOMOR RUJUKAN</h3>
+      <form method="post" action="/cetaksep/">
         {% csrf_token %}
-        <input type="text" placeholder="Nomor Rujukan" name="diagnosa" required/>
-        <button type="submit" class="btnsubmit" id="buttonin">Submit</button>
+        <input type="text" placeholder="Nomor Rujukan" name="rujuk" required/>
+        <button type="submit">Submit</button>
       </form>
-
-      <div style="display: flex;">
-        <form id="myForm" method="post">
-          <button type="submit">MODAL</button>
-        </form>
-
-       
-      </div>
     </div>
 
       <!-- NO KARTU -->
     <div class="form">
-      <h4>NOMOR KARTU</h4>
+      <h3>NOMOR KARTU</h3>
       <form class="form-inline" id="member1" method="post">
         {% csrf_token %}
         <input type="text" placeholder="Nomor Kartu" name="nomorKartu" required/>
         <button type="submit" class="btnsubmit">Submit</button>
       </form>
-
-      <form id="myFormKartu" method="post">
-        <button type="submit">SHOW DETAIL</button>
-      </form>
     </div>
   </div>
 
 <!-- MODAL DARI NOMOR RUJUKAN -->
-  <div class="modal fade" tabindex="-1" role="dialog" id="myModal">
+  <!-- <div class="modal fade" tabindex="-1" role="dialog" id="myModal">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
@@ -87,42 +73,35 @@
           <form method="post">
             {% csrf_token %}
             <input type="text" name="faskes" placeholder="Kode Faskes" required>
-            <input type="text" placeholder="Catatan" name="catatan" required>
+            <input type="text" placeholder="Catatan" name="catatan">
             <button type="submit">Submit faskes</button>
           </form>
 
           <form method="post">
             {% csrf_token %}
             <input type="hidden" name="dpjp">
-            <!-- <input type="text" placeholder="Catatan" name="catatan"> -->
             <button type="submit">Submit DPJP</button>
           </form>
-      <!-- <p>{{hasil}}</p> -->
-
         </div>
         <div class="modal-footer">
-          <!-- <form method="post" action="/printsep/"> -->
-      
-          <!-- <iframe name="createsep" style="display:none;"></iframe>       -->
           <form method="post">
               {% csrf_token %}
             <button id="postData" type="submit">CREATE SEP</button>
           </form>
 
-             <!-- CETAK SEP -->
           <form method="post" action="/printsep/">
             {% csrf_token %}
             <input type="hidden" value="{{hasil}}" name="sep">
             <button type="submit">CETAK SEP</button>
           </form>
         </div>
-      </div><!-- /.modal-content -->
-    </div><!-- /.modal-dialog -->
-  </div><!-- /.mo -->
+      </div>
+    </div>
+  </div> -->
 
 
   <!-- MODAL DARI NOMOR KARTU -->
-  <div class="modal fade" tabindex="-1" role="dialog" id="modalKartu">
+  <!-- <div class="modal fade" tabindex="-1" role="dialog" id="modalKartu">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
@@ -142,69 +121,23 @@
           <form method="post">
             {% csrf_token %}
             <input type="hidden" name="dpjp">
-            <!-- <input type="text" placeholder="Catatan" name="catatan"> -->
             <button type="submit">Submit DPJP</button>
           </form>
-      <!-- <p>{{hasil}}</p> -->
-
         </div>
         <div class="modal-footer">
-          <!-- <form method="post" action="/printsep/"> -->
-      
-          <!-- <iframe name="createsep" style="display:none;"></iframe>       -->
           <form method="post">
               {% csrf_token %}
             <button id="postData" type="submit">CREATE SEP</button>
           </form>
-
-             <!-- CETAK SEP -->
           <form method="post" action="/printsep/">
             {% csrf_token %}
             <input type="hidden" value="{{hasil}}" name="sep">
             <button type="submit">CETAK SEP</button>
           </form>
         </div>
-      </div><!-- /.modal-content -->
-    </div><!-- /.modal-dialog -->
-  </div><!-- /.mo -->
-
-  <script>
-    $(document).ready(function() {
-      $('#myForm').on('submit', function(e){
-        // console.log('{{diagnosa}}')
-        // $.ajax({
-        //   url:"http://localhost:8000",
-        //   method:'get',
-        //   success: function(){
-        //     console.log("{{diagnosa}}")
-        //     // $("#myModal").load(location.href + " #myModal");
-        //   }
-        // })
-        $("#myForm").load(location.href + " #myForm > *");
-        $('#myModal').modal('show');
-        e.preventDefault();
-
-      });
-
-      $("#postData").on('click',function(){
-        // console.log('test')
-        $.ajax({
-          url:'http://localhost:8000',
-          type:'get',
-          success: function(){
-            console.log('suskses')
-          }
-        })
-      })
-      
-      $('#myFormKartu').on('submit', function(e){
-        $('#modalKartu').modal('show');
-        e.preventDefault();
-
-      });
-     
-    });
-  </script>
+      </div>
+    </div>
+  </div> -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
     integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
     crossorigin="anonymous"></script>
