@@ -75,6 +75,14 @@ def generateKey():
         return False    
 
 def cetakSep(request):
+    x = request.POST.get('kode')
+    
+    print(x)
+
+
+    return render(request,'pilihdokter.html')
+
+def pilihDokter(request):
     try: 
         # get variable global
         global diag, hasil, nokar, msg, noRujukan, fas, ppkPelayanan, poliRujukan, pelayanan, kelasRawat, comment, kodeSpesialisRujukan, dpjp,noSep,hasil
@@ -192,10 +200,3 @@ def cetakSep(request):
         'dpjp':dpjp,
         # 'hasil':hasil
     })
-
-def pilihDokter(request):
-    x = request.POST.get('kode')
-    print(x)
-
-    
-    return render(request,'pilihdokter.html')
