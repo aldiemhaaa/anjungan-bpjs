@@ -40,39 +40,13 @@ def postApi(endpoint,dataKey):
 
 def index(request):
     global diag, hasil, nokar, msg, noRujukan, fas, ppkPelayanan, poliRujukan, pelayanan, kelasRawat, comment, kodeSpesialisRujukan, dpjp,noSep,hasil
-    if 'nomorKartu' in request.POST:
-        global nokar
-        nokartu = request.POST['nomorKartu']
-        url = 'https://new-api.bpjs-kesehatan.go.id:8080/new-vclaim-rest/Rujukan/RS/Peserta/%s' % nokartu
+    # if 'nomorKartu' in request.POST:
+    #     global nokar
+    #     nokartu = request.POST['nomorKartu']
+    #     url = 'https://new-api.bpjs-kesehatan.go.id:8080/new-vclaim-rest/Rujukan/RS/Peserta/%s' % nokartu
         
-        nokar = getApi(url)
-        diag = nokar
-    #     global hasil
-    #     hasil = postApi(url,dataKey)
-    #     # print(hasil)
-    #     # if hasil['response']['noSep'] == '':
-    #     #     noSep = hasil['response']['noSep']
-    #     #     print(noSep)
-    #     # else:
-    #     #     print(hasil)
-    #     # try: 
-    #     #     print(hasil['response']['noSep'])
-    #     #     resultnoSep = hasil['response']['noSep']
-    #     #     Sep.objects.create(key = resultnoSep)
-    #     # except TypeError:
-    #     #     # print(hasil)
-    #     #     # listnoSep = Sep.objects.all()
-    #     #     hasilnya = hasil['metaData']['message'] 
-    #     #     result = hasilnya.rsplit(' ', 1)[1]
-    #     #     filterSep = Sep.objects.filter(key = result)
-    #     #     print(filterSep)
-    #         # print(Sep.objects.all())
-    #         # if result == filterSep:
-    #         #     print(result +" ini sudah ada di dalam database, juga sudah dicetak")
-    #         # else:
-    #         #     Sep.objects.create(key = result)
-    #         #     print(result+" ini ini ")
-    #     # print(generateKey())
+    #     nokar = getApi(url)
+    #     diag = nokar
     return render(request,'index.html', {
         'diagnosa':diag,
         'hasil': hasil,
@@ -126,7 +100,7 @@ def cetakSep(request):
         urldpjp = 'https://new-api.bpjs-kesehatan.go.id:8080/new-vclaim-rest/referensi/dokter/pelayanan/'+ pelayanan + '/tglPelayanan/'+ dateNow + '/Spesialis/' + kodeSpesialisRujukan
         # get api dpjp
         dpjp = getApi(urldpjp)
-        
+        print(dpjp)
         # retrieve data 
         noDpjp = dpjp['response']['list'][0]['kode']
         noKartu = diag['response']['rujukan']['peserta']['noKartu']
@@ -197,47 +171,31 @@ def cetakSep(request):
            }
         })
         hasil = postApi(urlInsertSep,dataKey)
-        # print(type(hasil['metaData']['message']))
-        # print(hasil)
-        # print(hasil['response']['noSep'])
-        # print(type(hasil['response']['noSep']))
-        # print(type(str(hasil['response']['noSep'])))
-
         if hasil['metaData']['message'] == "Sukses":
-            print(hasil)
+            # print(hasil)
             result = hasil['response']['sep']['noSep']
-            Sep.objects.create(nomorsep = result,nomorsuratkontrol = noSurat)
-            # print(result)
+            print(result)
+            if Sep.objects.filter(nomorsep = result):
+                print("no sep sudah ada di database")
+            else:
+                Sep.objects.create(nomorsep = result,nomorsuratkontrol = noSurat)
+                print('sukses dicetak')
         else:
-            # print(generateHeader())
+            print(generateHeader())
             print(noSurat)
             print(hasil['metaData']['message'])
-            # print(hasil)
-        # generate nomor surat dan post ke database berbarengan post noSep ke database            
-        # try: 
-        # result = hasil['response']['noSep']
-        #     # resultnoSep = hasil['response']['noSep']
-        #     # Sep.objects.create(nomorsep = resultnoSep, nomorsuratkontrol = generatekey())
-        # except TypeError:
-        #     result = "NO SEP SUDAH ADA"
-        #     return result
-            # print(hasil)
-            # listnoSep = Sep.objects.all()
-            # hasilnya = hasil['metaData']['message'] 
-            # result = hasilnya.rsplit(' ', 1)[1]
-            # filterSep = Sep.objects.filter(key = result)
-            # print(filterSep)
-            # print(Sep.objects.all())
-            # if result == filterSep:
-            #     print(result +" ini sudah ada di dalam database, juga sudah dicetak")
-            # else:
-            #     Sep.objects.create(key = result)
-            #     print(result+" ini ini ")
-        # print(generateKey())
     except:
         return False
 
     return render(request,'cetaksep.html',{
         'rujukan':diag,
+        'dpjp':dpjp,
         # 'hasil':hasil
     })
+
+def pilihDokter(request):
+    x = request.POST.get('kode')
+    print(x)
+
+    
+    return render(request,'pilihdokter.html')
