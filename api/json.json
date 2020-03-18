@@ -1,16 +1,25 @@
 {
-    "firstName": "Jane",
-    "lastName": "Doe",
-    "hobbies": ["running", "sky diving", "singing"],
-    "age": 35,
-    "children": [
+    'metaData': 
+    {
+        'code': '200',
+         'message': 'Sukses'
+    },
+    'response': 
+    {
+        'sep': 
         {
-            "firstName": "Alice",
-            "age": 6
-        },
-        {
-            "firstName": "Bob",
-            "age": 8
-        }
-    ]
-}
+            'catatan': ' ',
+            'diagnosa': 'C55 - Malignant neoplasm of uterus,
+            part unspecified', 
+            'informasi': 
+            {
+                'dinsos': None, 
+                'noSKTM': None, 
+                'prolanisPRB': None
+            },
+            'jnsPelayanan': 'R.Jalan', 
+            'kelasRawat': '-', 
+            'noRujukan': None, 
+            'noSep': '0601R0010320V014472', 
+            'penjamin': '-',
+             'peserta': {'asuransi': '-', 'hakKelas': 'Kelas 2', 'jnsPeserta': 'PEGAWAI SWASTA', 'kelamin': 'Perempuan', 'nama': 'RUSIMI', 'noKartu': '0001848267911', 'noMr': '1120059}', 'tglLahir': '1976-09-10'}, 'poli': 'BEDAH DIGESTIF ', 'poliEksekutif': 'Tidak', 'tglSep': '2020-03-18'}}}F

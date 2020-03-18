@@ -197,18 +197,23 @@ def cetakSep(request):
            }
         })
         hasil = postApi(urlInsertSep,dataKey)
-        print(hasil)
-        
+        # print(type(hasil['metaData']['message']))
+        # print(hasil)
+        # print(hasil['response']['noSep'])
+        # print(type(hasil['response']['noSep']))
+        # print(type(str(hasil['response']['noSep'])))
 
-        try:
-            result = hasil['metaData']['message']
-            print(result)
-            print(noSurat)
-        except AttributeError:
-            result = hasil['response']['noSep']
+        if hasil['metaData']['message'] == "Sukses":
+            print(hasil)
+            result = hasil['response']['sep']['noSep']
             Sep.objects.create(nomorsep = result,nomorsuratkontrol = noSurat)
-            
-        # generate nomor surat dan post ke database berbarengan post noSep ke database
+            # print(result)
+        else:
+            # print(generateHeader())
+            print(noSurat)
+            print(hasil['metaData']['message'])
+            # print(hasil)
+        # generate nomor surat dan post ke database berbarengan post noSep ke database            
         # try: 
         # result = hasil['response']['noSep']
         #     # resultnoSep = hasil['response']['noSep']
