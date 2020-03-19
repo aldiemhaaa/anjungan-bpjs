@@ -5,6 +5,7 @@ from .models import generatekey,Sep
 import re
 
 diag, hasil, nokar, msg, noRujukan, fas, ppkPelayanan, poliRujukan, pelayanan, kelasRawat, comment, kodeSpesialisRujukan, dpjp,noSep = " "*14
+noKartu, noMR, tglrujukan, diagAwal, poliTujuan, noDpjp = " "*6
 dateNow = str(date.today())
 
 # Header API BPJS
@@ -74,18 +75,11 @@ def generateKey():
     else:
         return False    
 
-def cetakSep(request):
-    x = request.POST.get('kode')
-    
-    print(x)
-
-
-    return render(request,'pilihdokter.html')
 
 def pilihDokter(request):
     try: 
         # get variable global
-        global diag, hasil, nokar, msg, noRujukan, fas, ppkPelayanan, poliRujukan, pelayanan, kelasRawat, comment, kodeSpesialisRujukan, dpjp,noSep,hasil
+        global diag, hasil, nokar, msg, noRujukan, fas, ppkPelayanan, poliRujukan, pelayanan, kelasRawat, comment, kodeSpesialisRujukan, dpjp,noSep,hasil,noDpjp,noKartu, noMR, tglrujukan, diagAwal, poliTujuan, noDpjp
         # get input from user
         diagnosa = request.POST.get('rujuk')
         # faskes
@@ -110,93 +104,102 @@ def pilihDokter(request):
         dpjp = getApi(urldpjp)
         print(dpjp)
         # retrieve data 
-        noDpjp = dpjp['response']['list'][0]['kode']
         noKartu = diag['response']['rujukan']['peserta']['noKartu']
         noMR = diag['response']['rujukan']['peserta']['mr']['noMR']
         tglrujukan = diag['response']['rujukan']['tglKunjungan']
         diagAwal = diag['response']['rujukan']['diagnosa']['kode']
         poliTujuan = diag['response']['rujukan']['poliRujukan']['kode']
-        noDpjp = dpjp['response']['list'][0]['kode']
-
-        # generate key from function generateKey()
-        noSurat = str(generateKey())
-
-        # api url to insert sep
-        urlInsertSep = 'https://new-api.bpjs-kesehatan.go.id:8080/new-vclaim-rest/SEP/1.1/insert'
-
-        # data to post Insert Sep
-        dataKey = json.dumps({
-           "request": {
-              "t_sep": {
-                 "noKartu": noKartu, #no kartu from peserta
-                 "tglSep": dateNow, #generate time now
-                 "ppkPelayanan": ppkPelayanan, # ini diambil di fasilitas kesehatan
-                 "jnsPelayanan": pelayanan, # rawat jalan pasti
-                 "klsRawat": kelasRawat, # kelas rawat diambil dari kelas bpjs
-                 "noMR": noMR, # retrieve from no rujukan or no kartu
-                 "rujukan": {
-                    "asalRujukan": "2", # faskes 1 , faskes 2 RS
-                    "tglRujukan": tglrujukan, #diambil dari tgl kunjungan
-                    "noRujukan": noRujukan, #get from user input no rujukan
-                    "ppkRujukan": poliRujukan #diambil dari kode faskes
-                 },
-                 "catatan": comment, #diambil dari client
-                 "diagAwal": diagAwal, #diambil di diagnosa awal noRujukan/NoKartu
-                 "poli": {
-                    "tujuan": poliTujuan, #diambil dari poliRujukan
-                    "eksekutif": "0" #diambil dari client
-                 },
-                 "cob": {
-                    "cob": "0" # null
-                 },
-                 "katarak": {
-                    "katarak": "0" #null
-                 },
-                 "jaminan": {
-                    "lakaLantas": "0",
-                    "penjamin": {
-                        "penjamin": "",
-                        "tglKejadian": "",
-                        "keterangan": "",
-                        "suplesi": {
-                            "suplesi": "0",
-                            "noSepSuplesi": "",
-                            "lokasiLaka": {
-                                "kdPropinsi": "",
-                                "kdKabupaten": "",
-                                "kdKecamatan": ""
-                                }
-                        }
-                    }
-                 },
-                 "skdp": {
-                    "noSurat": noSurat, # generate from stamp 
-                    "kodeDPJP": noDpjp # ^^ referensinya di dokter dpjp
-                 },
-                 "noTelp": "09809809809", #isi dengan no hp client
-                 "user": "ANJUNGAN" # null
-              }
-           }
-        })
-        hasil = postApi(urlInsertSep,dataKey)
-        if hasil['metaData']['message'] == "Sukses":
-            # print(hasil)
-            result = hasil['response']['sep']['noSep']
-            print(result)
-            if Sep.objects.filter(nomorsep = result):
-                print("no sep sudah ada di database")
-            else:
-                Sep.objects.create(nomorsep = result,nomorsuratkontrol = noSurat)
-                print('sukses dicetak')
-        else:
-            print(generateHeader())
-            print(noSurat)
-            print(hasil['metaData']['message'])
+       
     except:
         return False
 
-    return render(request,'cetaksep.html',{
+    return render(request,'pilihdokter.html',{
         'rujukan':diag,
         'dpjp':dpjp,
         # 'hasil':hasil
+    })
+
+def cetakSep(request):
+    global diag, hasil, nokar, msg, noRujukan, fas, ppkPelayanan, poliRujukan, pelayanan, kelasRawat, comment, kodeSpesialisRujukan, dpjp,noSep,hasil,noDpjp,noKartu, noMR, tglrujukan, diagAwal, poliTujuan, noDpjp
+    noDokterDpjp = request.POST.get('kode')
+    
+     # generate key from function generateKey()
+    noSurat = str(generateKey())
+
+    # api url to insert sep
+    urlInsertSep = 'https://new-api.bpjs-kesehatan.go.id:8080/new-vclaim-rest/SEP/1.1/insert'
+
+    # data to post Insert Sep
+    dataKey = json.dumps({
+        "request": {
+            "t_sep": {
+                "noKartu": noKartu, #no kartu from peserta
+                "tglSep": dateNow, #generate time now
+                "ppkPelayanan": ppkPelayanan, # ini diambil di fasilitas kesehatan
+                "jnsPelayanan": pelayanan, # rawat jalan pasti
+                "klsRawat": kelasRawat, # kelas rawat diambil dari kelas bpjs
+                "noMR": noMR, # retrieve from no rujukan or no kartu
+                "rujukan": {
+                "asalRujukan": "2", # faskes 1 , faskes 2 RS
+                "tglRujukan": tglrujukan, #diambil dari tgl kunjungan
+                "noRujukan": noRujukan, #get from user input no rujukan
+                "ppkRujukan": poliRujukan #diambil dari kode faskes
+                },
+                "catatan": comment, #diambil dari client
+                "diagAwal": diagAwal, #diambil di diagnosa awal noRujukan/NoKartu
+                "poli": {
+                "tujuan": poliTujuan, #diambil dari poliRujukan
+                "eksekutif": "0" #diambil dari client
+                },
+                "cob": {
+                "cob": "0" # null
+                },
+                "katarak": {
+                "katarak": "0" #null
+                },
+                "jaminan": {
+                "lakaLantas": "0",
+                "penjamin": {
+                    "penjamin": "",
+                    "tglKejadian": "",
+                    "keterangan": "",
+                    "suplesi": {
+                        "suplesi": "0",
+                        "noSepSuplesi": "",
+                        "lokasiLaka": {
+                            "kdPropinsi": "",
+                            "kdKabupaten": "",
+                            "kdKecamatan": ""
+                            }
+                    }
+                }
+                },
+                "skdp": {
+                "noSurat": noSurat, # generate from stamp 
+                "kodeDPJP": noDokterDpjp # ^^ referensinya di dokter dpjp
+                },
+                "noTelp": "09809809809", #isi dengan no hp client
+                "user": "ANJUNGAN" # null
+            }
+        }
+    })
+    hasil = postApi(urlInsertSep,dataKey)
+    if hasil['metaData']['message'] == "Sukses":
+        # print(hasil)
+        result = hasil['response']['sep']['noSep']
+        print(result)
+        if Sep.objects.filter(nomorsep = result):
+            print("no sep sudah ada di database")
+        else:
+            Sep.objects.create(nomorsep = result,nomorsuratkontrol = noSurat)
+            print('sukses dicetak')
+            print(hasil)
+    else:
+        print(generateHeader())
+        print(noSurat)
+        print(hasil['metaData']['message'])
+
+
+    return render(request,'cetaksep.html',{
+        'hasil':hasil
     })

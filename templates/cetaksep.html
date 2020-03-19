@@ -6,14 +6,8 @@
     <title>Document</title>
 </head>
 <body>
-    <form action="cetaksep/" method="post">
-        {% csrf_token %}
-        <h3>Pilih Dpjp</h3>
-        {% for i in dpjp.response.list %}
-        <input type="radio" id="{{i.kode}}" name="kode" value="{{i.kode}}">
-        <label for="{{i.kode}}">{{i.nama}}</label><br>
-        {% endfor %}
-        <button type="submit">SUBMIT</button>
-    </form> 
+    <p>Sukses</p>
+
+    <h5>{{hasil}}</h5>
 </body>
 </html>
