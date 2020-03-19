@@ -185,21 +185,26 @@ def cetakSep(request):
     })
     hasil = postApi(urlInsertSep,dataKey)
     if hasil['metaData']['message'] == "Sukses":
+        resultsep = hasil['response']['sep']['noSep']
         # print(hasil)
-        result = hasil['response']['sep']['noSep']
-        print(result)
-        if Sep.objects.filter(nomorsep = result):
+        if Sep.objects.filter(nomorsep = resultsep):
             print("no sep sudah ada di database")
         else:
-            Sep.objects.create(nomorsep = result,nomorsuratkontrol = noSurat)
+            Sep.objects.create(nomorsep = resultsep,nomorsuratkontrol = noSurat)
             print('sukses dicetak')
             print(hasil)
+            print(resultsep)
+
     else:
         print(generateHeader())
         print(noSurat)
         print(hasil['metaData']['message'])
+        hasilnya = hasil['metaData']['message']
+        resultsep = hasilnya.rsplit(' ', 1)[1]
+        print(resultsep)    
 
 
     return render(request,'cetaksep.html',{
-        'hasil':hasil
+        'hasil':hasil,
+        'result':resultsep
     })
