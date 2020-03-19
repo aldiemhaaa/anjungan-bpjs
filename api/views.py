@@ -4,7 +4,7 @@ import requests,hmac,hashlib,base64,time, tempfile , json ,random
 from .models import generatekey,Sep
 import re
 
-diag, hasil, nokar, msg, noRujukan, fas, ppkPelayanan, poliRujukan, pelayanan, kelasRawat, comment, kodeSpesialisRujukan, dpjp,noSep = " "*14
+diag, hasil, nokar, msg, noRujukan, fas, ppkPelayanan, poliRujukan, pelayanan, kelasRawat, comment, kodeSpesialisRujukan, dpjp,noSep,diagnosa = " "*15
 noKartu, noMR, tglrujukan, diagAwal, poliTujuan, noDpjp = " "*6
 dateNow = str(date.today())
 
@@ -79,15 +79,22 @@ def generateKey():
 def pilihDokter(request):
     try: 
         # get variable global
-        global diag, hasil, nokar, msg, noRujukan, fas, ppkPelayanan, poliRujukan, pelayanan, kelasRawat, comment, kodeSpesialisRujukan, dpjp,noSep,hasil,noDpjp,noKartu, noMR, tglrujukan, diagAwal, poliTujuan, noDpjp
+        global diagnosa, diag, hasil, nokar, msg, noRujukan, fas, ppkPelayanan, poliRujukan, pelayanan, kelasRawat, comment, kodeSpesialisRujukan, dpjp,noSep,hasil,noDpjp,noKartu, noMR, tglrujukan, diagAwal, poliTujuan, noDpjp
         # get input from user
-        diagnosa = request.POST.get('rujuk')
+        if 'rujuk' in request.POST:
+            diagnosa = request.POST.get('rujuk')
+            url = 'https://new-api.bpjs-kesehatan.go.id:8080/new-vclaim-rest/Rujukan/RS/%s' % diagnosa # get peserta via no rujukan
+            diag = getApi(url) 
+        elif 'nomorKartu' in request.POST:
+            getnomorKartu = request.POST.get('nomorKartu')
+            url = 'https://new-api.bpjs-kesehatan.go.id:8080/new-vclaim-rest/Rujukan/RS/Peserta/%s' % getnomorKartu
+            nokar = getApi(url)
+            diag = nokar
+            # diagnosa = cariberdasarkartu
         # faskes
-        url = 'https://new-api.bpjs-kesehatan.go.id:8080/new-vclaim-rest/Rujukan/RS/%s' % diagnosa # get peserta via no rujukan
         urlfaskes = 'https://new-api.bpjs-kesehatan.go.id:8080/new-vclaim-rest/referensi/faskes/Hoesin/2' # get kode RS Hoesin Palembang
         noRujukan = diagnosa
         #get api rujukan
-        diag = getApi(url) 
         #get api faskes
         fas = getApi(urlfaskes)
 

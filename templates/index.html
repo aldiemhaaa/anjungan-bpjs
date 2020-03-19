@@ -1,149 +1,111 @@
 {% load static %}
-<!doctype html>
-<html lang="en">
-
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <link rel="stylesheet" type="text/css" href="{% static 'fonts/font-awesome-4.7.0/css/font-awesome.min.css' %}">
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-  <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
-    crossorigin="anonymous"></script>
-  <title>No Rujukan</title>
-
-  <style>
-    *{
-      /* border:1px solid red; */
-    }
-    body{
-      background: aqua;
-    }
-    .login-page{
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-    }
-    .form{
-      margin: 0 50px;
-      background:#fff;
-      padding:20px; 
-    }
-    .btnsubmit{
-      margin: 0 10px;
-    }
-  </style>
-</head>
-
-<body>
-  <div class="login-page">
-    <div class="form">
-      <!-- NO RUJUKAN -->
-      <h3>NOMOR RUJUKAN</h3>
+    <!-- NO RUJUKAN -->
+    <!-- <div class="form">
       <form method="post" action="/pilihdokter/">
         {% csrf_token %}
-        <input type="text" placeholder="Nomor Rujukan" name="rujuk" required/>
-        <button type="submit">Submit</button>
+        <div class="input">
+          <input type="text" placeholder="Nomor Rujukan" name="rujuk" required/>
+        </div>
+        <div class="btn">
+          <button type="submit" class="btnsubmit">Submit</button>
+        </div>
       </form>
-    </div>
+    </div> -->
 
       <!-- NO KARTU -->
-    <div class="form">
+    <!-- <div class="form">
       <h3>NOMOR KARTU</h3>
-      <form class="form-inline" id="member1" method="post">
+      <form method="post">
         {% csrf_token %}
-        <input type="text" placeholder="Nomor Kartu" name="nomorKartu" required/>
-        <button type="submit" class="btnsubmit">Submit</button>
+        <div class="input">
+
+          <input type="text" placeholder="Nomor Kartu" name="nomorKartu" required/>
+        </div>
+        <div class="btn">
+
+          <button type="submit" class="btnsubmit">Submit</button>
+        </div>
       </form>
     </div>
-  </div>
-
-<!-- MODAL DARI NOMOR RUJUKAN -->
-  <!-- <div class="modal fade" tabindex="-1" role="dialog" id="myModal">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        </div>
-        <div class="modal-body">
-          <p>NAMA     : {{diagnosa.response.rujukan.peserta.nama}}</p>
-          <p>NO KARTU : {{diagnosa.response.rujukan.peserta.noKartu}}</p>
-          <p>NO RUJUKAN : {{noRujukan}}</p>
-          <form method="post">
-            {% csrf_token %}
-            <input type="text" name="faskes" placeholder="Kode Faskes" required>
-            <input type="text" placeholder="Catatan" name="catatan">
-            <button type="submit">Submit faskes</button>
-          </form>
-
-          <form method="post">
-            {% csrf_token %}
-            <input type="hidden" name="dpjp">
-            <button type="submit">Submit DPJP</button>
-          </form>
-        </div>
-        <div class="modal-footer">
-          <form method="post">
-              {% csrf_token %}
-            <button id="postData" type="submit">CREATE SEP</button>
-          </form>
-
-          <form method="post" action="/printsep/">
-            {% csrf_token %}
-            <input type="hidden" value="{{hasil}}" name="sep">
-            <button type="submit">CETAK SEP</button>
-          </form>
-        </div>
-      </div>
-    </div>
   </div> -->
 
 
-  <!-- MODAL DARI NOMOR KARTU -->
-  <!-- <div class="modal fade" tabindex="-1" role="dialog" id="modalKartu">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        </div>
-        <div class="modal-body">
-          <p>NAMA     : {{diagnosa.response.rujukan.peserta.nama}}</p>
-          <p>NO KARTU : {{diagnosa.response.rujukan.peserta.noKartu}}</p>
-          <p>NO RUJUKAN : {{noRujukan}}</p>
-          <form method="post">
-            {% csrf_token %}
-            <input type="text" name="faskes" placeholder="Kode Faskes" required>
-            <input type="text" placeholder="Catatan" name="catatan" required>
-            <button type="submit">Submit faskes</button>
-          </form>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Contact V16</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+<!--===============================================================================================-->
+	<!-- <link rel="icon" type="image/png" href="images/icons/favicon.ico"/> -->
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'fonts/font-awesome-4.7.0/css/font-awesome.min.css' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'fonts/iconic/css/material-design-iconic-font.min.css' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'fonts/Linearicons-Free-v1.0.0/icon-font.min.css' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'css/util.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
+<!--===============================================================================================-->
+<style>
+	.wrap-contact100{
+		margin:0 10px;
+	} 
+</style>
+</head>
+<body>
+	<div class="container-contact100" class="btn-show-contact100">
+    <!-- form Rujukan -->
+		<div class="wrap-contact100">
 
-          <form method="post">
-            {% csrf_token %}
-            <input type="hidden" name="dpjp">
-            <button type="submit">Submit DPJP</button>
-          </form>
-        </div>
-        <div class="modal-footer">
-          <form method="post">
-              {% csrf_token %}
-            <button id="postData" type="submit">CREATE SEP</button>
-          </form>
-          <form method="post" action="/printsep/">
-            {% csrf_token %}
-            <input type="hidden" value="{{hasil}}" name="sep">
-            <button type="submit">CETAK SEP</button>
-          </form>
-        </div>
-      </div>
-    </div>
-  </div> -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
-    integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
-    crossorigin="anonymous"></script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
-    integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
-    crossorigin="anonymous"></script>
+			<div class="contact100-form-title">
+				<span>Nomor Rujukan</span>
+			</div>
+
+      <form class="contact100-form validate-form" method="post" action="/pilihdokter/">
+        {% csrf_token %}
+				<div class="wrap-input100 validate-input">
+					<input id="name" class="input100" type="text" placeholder="Nomor Rujukan" name="rujuk" required>
+					<span class="focus-input100"></span>
+					<label class="label-input100" for="name">
+						<span class="lnr lnr-user m-b-2"></span>
+					</label>
+				</div>
+
+				<div class="container-contact100-form-btn">
+					<button type="submit" class="contact100-form-btn">
+						SUBMIT
+					</button>
+				</div>
+			</form>
+		</div>
+
+		<div class="wrap-contact100">
+
+			<div class="contact100-form-title">
+				<span>Nomor Kartu</span>
+			</div>
+
+      <form class="contact100-form validate-form" method="post" action="/pilihdokter/" >
+        {% csrf_token %}
+				<div class="wrap-input100 validate-input">
+					<input id="name" class="input100" type="text" name="nomorKartu" placeholder="Nomor Kartu" required>
+					<span class="focus-input100"></span>
+					<label class="label-input100" for="name">
+						<span class="lnr lnr-user m-b-2"></span>
+					</label>
+				</div>
+
+				<div class="container-contact100-form-btn">
+					<button type="submit" class="contact100-form-btn">
+						SUBMIT
+					</button>
+				</div>
+			</form>
+		</div>
+	</div>
 </body>
-
 </html>
