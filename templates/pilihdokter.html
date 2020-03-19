@@ -6,14 +6,16 @@
     <title>Document</title>
 </head>
 <body>
+
     <form action="cetaksep/" method="post">
         {% csrf_token %}
-        <h3>Pilih Dpjp</h3>
+        <label for="kode">Pilih Dokter:</label>
+        <select id="kode" name="kode">
         {% for i in dpjp.response.list %}
-        <input type="radio" id="{{i.kode}}" name="kode" value="{{i.kode}}">
-        <label for="{{i.kode}}">{{i.nama}}</label><br>
+          <option value="{{i.kode}}">{{i.nama}}</option>
         {% endfor %}
+        </select>
         <button type="submit">SUBMIT</button>
-    </form> 
+      </form>
 </body>
 </html>
