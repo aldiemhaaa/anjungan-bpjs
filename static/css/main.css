@@ -167,6 +167,7 @@ iframe {
 }
 
 /*---------------------------------------------*/
+
 .contact100-header {
   width: 100%;
   height: 80px;
@@ -228,6 +229,8 @@ iframe {
   border-radius: 3px;
   position: relative;
   margin-top: 40px;
+  margin-left: 10px!important;
+  margin-right:10px!important;
 }
 
 /*==================================================================
