@@ -1,14 +1,142 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <style>
+        *{
+            margin:0;
+            padding:0;
+            /* border:1px solid black; */
+        }
+        body{
+            margin:20px 30px  0 30px;
+        }
+        .header{
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom:3px solid black;
+            padding-bottom:10px;
+        }
+        img{
+            height: 100px;
+        }
+        .header span{
+            font-weight: bold;
+            font-size: 18px;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+        ul{
+            list-style-type: none;
+        }
+        ul li{
+            font-size:20px;
+            font-family: Arial, Helvetica, sans-serif;
+            margin-top:5px;
+        }
+        .hasil{
+            margin-top:20px;
+            display: flex;
+            justify-content: space-between;
+            /* align-items: flex-start; */
+            /* border:1px solid black; */
+        }
+        .tab:nth-child(2){
+            margin-right:200px;
+        }
+        .antri{
+            position: absolute;
+            bottom:30px;
+            right:40px;
+        }
+        .note{
+            font-size: 15px;
+            font-style: italic;
+            margin-top:15px;
+        }
+        #cetakan{
+            margin-top:20px;
+            /* text-indent: 50px; */
+        }
+        .ttd{
+            position: absolute;
+            bottom: 100px;
+            right:285px;
+            font-size: 18px;
+            font-family: Arial, Helvetica, sans-serif;
+            text-align: center;
+        
+        }
+        .ttd-2{
+            position: absolute;
+            bottom: 100px;
+            text-align: center;
+            right:80px;
+            font-size: 18px;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+    </style>
 </head>
 <body>
-    <p>Sukses</p>
+    <div class="header">
+        <img src="{% static 'images/logo-bpjs.png' %}" alt="">
+        <span>SURAT ELEGIBILITAS PESERTA <br>RSUP DR. MOHAMMAD HOESIN</span>
+        <img src="{% static 'images/logrsmh.png' %}" alt="">
+    </div>
+    <!-- <p>Sukses</p>
 
     <h5>{{hasil}}</h5>
     <h4>No sep Adalah : {{result}}</h4>
-</body>
-</html>
+
+
+    <span>{{sep}}</span> -->
+    <div class="hasil">
+        <div class="tab">
+            <ul>
+                <li>No. SEP : {{result.response.noSep}}</li>
+                <li>Tgl. SEP : {{result.response.tglSep}}</li>
+                <li>No. Kartu : {{result.response.peserta.noKartu}} (MR : {{ result.response.peserta.noMr }})</li>
+                <li>Nama Peserta : {{result.response.peserta.nama}}</li>
+                <li>Tgl. Lahir : {{result.response.peserta.tglLahir}}   Jenis Kelamin : {{ result.response.peserta.kelamin }}</li>
+                <li>No. Telpon : </li>
+                <li>Poli Tujuan : {{result.response.poli}}</li>
+                <li>Faskes Perujuk : </li>
+                <li>Diagnosa Awal : {{result.response.diagnosa}}</li>
+                <li>Catatan :</li>
+                <li class="note">* Saya Menyetujui BPJS Kesehatan menggunakan informasi Medis Pasien jika diperlukan</li>
+                <li class="note">* SEP bukan sebagai bukti penjamin peserta</li>
+                <li id="cetakan">Cetakan ke 1 :  {{result.response.tglSep}}</li>
+            </ul>
+        </div>
+        <div class="tab">
+            <ul>
+                <li>Peserta : {{result.response.peserta.jnsPeserta}} </li>
+                <li>COB : -</li>
+                <li>Jenis Rawat : {{result.response.jnsPelayanan}}</li>
+                <li>Kelas Rawat : {{result.response.kelasRawat}}</li>
+                <li>Penjamin : {{result.response.penjamin}}</li>
+                <!-- <br><br><br>
+                    <li>Pasien / Keluarga Pasien Petugas RS</li>
+                    <li>(________________)  (________________)</li> -->
+                </ul>
+            </div>
+        </div>
+        <div class="ttd">
+            <span>Pasien/Keluarga pasien</span>
+            <br><br><br><br><br>
+            <span>(________________)</span>
+        </div>
+        <div class="ttd-2">
+            <span>Petugas RS</span>
+            <br><br><br><br><br>
+            <span>(________________)</span>
+        </div>
+        <div class="antri">
+            <span>No Antrian : 1</span>
+            <!--    <button>Kembali Ke awal</button> -->
+        </div>
+    </body>
+    </html>

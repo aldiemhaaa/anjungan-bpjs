@@ -515,6 +515,35 @@ button{
       <button>SUBMIT</button>
     </div>
   </form>
+
+  <form id="app-cover" action="cetaksep/" method="post"> 
+    {% csrf_token %}
+    <div id="select-box">
+      <input type="checkbox" id="options-view-button">
+      <div id="select-button" class="brd">
+        <div id="selected-value">
+          <span>Pilihan</span>
+        </div>
+        <div id="chevrons">
+          <i class="fas fa-chevron-up"></i>
+          <i class="fas fa-chevron-down"></i>
+        </div>
+      </div>
+      <div id="options">
+        {% for i in dpjp.response.list %}
+        <div class="option">
+          <input class="s-c top" type="radio" name="kode" value="{{i.kode}}">
+          <input class="s-c bottom" type="radio" name="kode" value="{{i.kode}}">
+          <i ></i>
+          <span class="label">{{i.nama}}</span>
+          <span class="opt-val">{{i.nama}}</span>
+        </div>
+        {% endfor %}
+        <div id="option-bg"></div>
+      </div>
+      <button>SUBMIT</button>
+    </div>
+  </form>
 </body>
 
 </html>

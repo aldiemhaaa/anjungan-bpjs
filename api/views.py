@@ -5,7 +5,7 @@ from .models import generatekey,Sep
 import re
 
 diag, hasil, nokar, msg, noRujukan, fas, ppkPelayanan, poliRujukan, pelayanan, kelasRawat, comment, kodeSpesialisRujukan, dpjp,noSep,diagnosa = " "*15
-noKartu, noMR, tglrujukan, diagAwal, poliTujuan, noDpjp = " "*6
+noKartu, noMR, tglrujukan, diagAwal, poliTujuan, noDpjp,resultsep,aksiSep = " "*8
 dateNow = str(date.today())
 
 # Header API BPJS
@@ -116,6 +116,7 @@ def pilihDokter(request):
         tglrujukan = diag['response']['rujukan']['tglKunjungan']
         diagAwal = diag['response']['rujukan']['diagnosa']['kode']
         poliTujuan = diag['response']['rujukan']['poliRujukan']['kode']
+        print(generateHeader())
        
     except:
         return False
@@ -191,27 +192,29 @@ def cetakSep(request):
         }
     })
     hasil = postApi(urlInsertSep,dataKey)
+    # global resultsep
     if hasil['metaData']['message'] == "Sukses":
+        global resultsep
         resultsep = hasil['response']['sep']['noSep']
-        # print(hasil)
-        if Sep.objects.filter(nomorsep = resultsep):
-            print("no sep sudah ada di database")
-        else:
-            Sep.objects.create(nomorsep = resultsep,nomorsuratkontrol = noSurat)
-            print('sukses dicetak')
-            print(hasil)
-            print(resultsep)
-
+        Sep.objects.create(nomorsep = resultsep,nomorsuratkontrol = noSurat)
+        print(resultsep)
     else:
-        print(generateHeader())
-        print(noSurat)
-        print(hasil['metaData']['message'])
+        # global resultsep
+        global aksiSep
+        # print(generateHeader())
+        # print(noSurat)
+        # print(hasil['metaData']['message'])
         hasilnya = hasil['metaData']['message']
-        resultsep = hasilnya.rsplit(' ', 1)[1]
-        print(resultsep)    
-
+        hasilSep = hasilnya.rsplit(' ', 1)[1]
+        # print(resultsep)    
+        urlgetSep = 'https://new-api.bpjs-kesehatan.go.id:8080/new-vclaim-rest/SEP/'+ hasilSep
+        aksiSep = getApi(urlgetSep)
+        print(aksiSep)
+        resultsep = aksiSep
+        # print('sep sudah ada')
 
     return render(request,'cetaksep.html',{
         'hasil':hasil,
-        'result':resultsep
+        'result':resultsep,
+        # 'sep' : aksiSep,
     })
