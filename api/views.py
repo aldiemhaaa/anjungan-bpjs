@@ -30,12 +30,23 @@ def generateHeader():
     return consID,stamp,encodesignature,headers
 
 def getApi(endpoint):
+    # response = requests.get(endpoint,headers = generateHeader()[3])
+    response = requests.get(endpoint)
+    diag = response.json()
+    return diag
+
+def getApiHeader(endpoint):
     response = requests.get(endpoint,headers = generateHeader()[3])
     diag = response.json()
     return diag
     
 def postApi(endpoint,dataKey):
-    response = requests.post(endpoint,data = dataKey, headers = generateHeader()[3])
+    response = requests.post(endpoint,data = dataKey)
+    hasil = response.json()
+    return hasil
+
+def postApiHeader(endpoint,dataKey):
+    response = requests.post(endpoint,data = dataKey,headers = generateHeader()[3])
     hasil = response.json()
     return hasil
 
@@ -83,32 +94,32 @@ def pilihDokter(request):
         # get input from user
         if 'rujuk' in request.POST:
             diagnosa = request.POST.get('rujuk')
-            url = 'https://new-api.bpjs-kesehatan.go.id:8080/new-vclaim-rest/Rujukan/RS/%s' % diagnosa # get peserta via no rujukan
+            url = 'http://10.1.0.6/rest-anjungan/api/bpjs/rujukan/%s' % diagnosa # get peserta via no rujukan
             diag = getApi(url) 
         elif 'nomorKartu' in request.POST:
             getnomorKartu = request.POST.get('nomorKartu')
-            url = 'https://new-api.bpjs-kesehatan.go.id:8080/new-vclaim-rest/Rujukan/RS/Peserta/%s' % getnomorKartu
+            url = 'http://10.1.0.6/rest-anjungan/api/bpjs/rujukan/peserta/%s' % getnomorKartu
             nokar = getApi(url)
             diag = nokar
             # diagnosa = cariberdasarkartu
         # faskes
-        urlfaskes = 'https://new-api.bpjs-kesehatan.go.id:8080/new-vclaim-rest/referensi/faskes/Hoesin/2' # get kode RS Hoesin Palembang
+        # urlfaskes = 'https://new-api.bpjs-kesehatan.go.id:8080/new-vclaim-rest/referensi/faskes/Hoesin/2' # get kode RS Hoesin Palembang
         noRujukan = diagnosa
         #get api rujukan
         #get api faskes
-        fas = getApi(urlfaskes)
+        # fas = getApi(urlfaskes)
 
         # retrieve data
         poliRujukan = diag['response']['rujukan']['provPerujuk']['kode']
         pelayanan = diag['response']['rujukan']['pelayanan']['kode']
         kelasRawat = diag['response']['rujukan']['peserta']['hakKelas']['kode']
         kodeSpesialisRujukan = diag['response']['rujukan']['poliRujukan']['kode']
-        ppkPelayanan = fas['response']['faskes'][0]['kode']
+        ppkPelayanan = '0601R001'
 
         #url api dpjp
         urldpjp = 'https://new-api.bpjs-kesehatan.go.id:8080/new-vclaim-rest/referensi/dokter/pelayanan/'+ pelayanan + '/tglPelayanan/'+ dateNow + '/Spesialis/' + kodeSpesialisRujukan
         # get api dpjp
-        dpjp = getApi(urldpjp)
+        dpjp = getApiHeader(urldpjp)
         print(dpjp)
         # retrieve data 
         noKartu = diag['response']['rujukan']['peserta']['noKartu']
@@ -191,13 +202,13 @@ def cetakSep(request):
             }
         }
     })
-    hasil = postApi(urlInsertSep,dataKey)
+    hasil = postApiHeader(urlInsertSep,dataKey)
     # global resultsep
     if hasil['metaData']['message'] == "Sukses":
         global resultsep
         resultsep = hasil['response']['sep']['noSep']
         Sep.objects.create(nomorsep = resultsep,nomorsuratkontrol = noSurat)
-        print(resultsep)
+        print(hasil)
     else:
         # global resultsep
         global aksiSep
@@ -206,11 +217,11 @@ def cetakSep(request):
         # print(hasil['metaData']['message'])
         hasilnya = hasil['metaData']['message']
         hasilSep = hasilnya.rsplit(' ', 1)[1]
-        # print(resultsep)    
         urlgetSep = 'https://new-api.bpjs-kesehatan.go.id:8080/new-vclaim-rest/SEP/'+ hasilSep
-        aksiSep = getApi(urlgetSep)
+        aksiSep = getApiHeader(urlgetSep)
         print(aksiSep)
         resultsep = aksiSep
+        print(resultsep)    
         # print('sep sudah ada')
 
     return render(request,'cetaksep.html',{
