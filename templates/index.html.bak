@@ -1,0 +1,72 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>INDEX || Anjungan BPJS</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" type="text/css" href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'fonts/font-awesome-4.7.0/css/font-awesome.min.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'fonts/iconic/css/material-design-iconic-font.min.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'fonts/Linearicons-Free-v1.0.0/icon-font.min.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'css/util.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
+<style>
+	.wrap-contact100{
+		margin:0 10px;
+	} 
+</style>
+</head>
+<body>
+	<div class="container-contact100" class="btn-show-contact100">
+    <!-- form Rujukan -->
+		<div class="wrap-contact100">
+
+			<div class="contact100-form-title">
+				<span>Nomor Rujukan</span>
+			</div>
+
+      <form class="contact100-form validate-form" method="post" action="/pilihdokter/">
+        {% csrf_token %}
+				<div class="wrap-input100 validate-input">
+					<input id="name" class="input100" type="text" placeholder="Nomor Rujukan" name="rujuk" required>
+					<span class="focus-input100"></span>
+					<label class="label-input100" for="name">
+						<span class="lnr lnr-user m-b-2"></span>
+					</label>
+				</div>
+
+				<div class="container-contact100-form-btn">
+					<button type="submit" class="contact100-form-btn">
+						SUBMIT
+					</button>
+				</div>
+			</form>
+		</div>
+
+		<div class="wrap-contact100">
+
+			<div class="contact100-form-title">
+				<span>Nomor Kartu</span>
+			</div>
+
+      <form class="contact100-form validate-form" method="post" action="/pilihdokter/" >
+        {% csrf_token %}
+				<div class="wrap-input100 validate-input">
+					<input id="name" class="input100" type="text" name="nomorKartu" placeholder="Nomor Kartu" required>
+					<span class="focus-input100"></span>
+					<label class="label-input100" for="name">
+						<span class="lnr lnr-user m-b-2"></span>
+					</label>
+				</div>
+
+				<div class="container-contact100-form-btn">
+					<button type="submit" class="contact100-form-btn">
+						SUBMIT
+					</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</body>
+</html>

@@ -96,10 +96,16 @@ def pilihDokter(request):
             diagnosa = request.POST.get('rujuk')
             url = 'http://10.1.0.6/rest-anjungan/api/bpjs/rujukan/%s' % diagnosa # get peserta via no rujukan
             diag = getApi(url) 
+            # url = 'https://new-api.bpjs-kesehatan.go.id:8080/new-vclaim-rest/Rujukan/RS/%s' % diagnosa
+            # diag = getApiHeader(url)
         elif 'nomorKartu' in request.POST:
             getnomorKartu = request.POST.get('nomorKartu')
             url = 'http://10.1.0.6/rest-anjungan/api/bpjs/rujukan/peserta/%s' % getnomorKartu
             nokar = getApi(url)
+            # urlKartu = 'https://new-api.bpjs-kesehatan.go.id:8080/new-vclaim-rest/Rujukan/RS/Peserta/%s' % getnomorKartu
+            # nokar = getApiHeader(urlKartu)
+            print(nokar)
+            # print(generateHeader())
             diag = nokar
             # diagnosa = cariberdasarkartu
         # faskes
@@ -203,6 +209,7 @@ def cetakSep(request):
         }
     })
     hasil = postApiHeader(urlInsertSep,dataKey)
+    print(hasil)
     # global resultsep
     if hasil['metaData']['message'] == "Sukses":
         global resultsep

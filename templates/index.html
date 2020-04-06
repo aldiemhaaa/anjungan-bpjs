@@ -1,72 +1,314 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-	<title>INDEX || Anjungan BPJS</title>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link rel="stylesheet" type="text/css" href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}">
-	<link rel="stylesheet" type="text/css" href="{% static 'fonts/font-awesome-4.7.0/css/font-awesome.min.css' %}">
-	<link rel="stylesheet" type="text/css" href="{% static 'fonts/iconic/css/material-design-iconic-font.min.css' %}">
-	<link rel="stylesheet" type="text/css" href="{% static 'fonts/Linearicons-Free-v1.0.0/icon-font.min.css' %}">
-	<link rel="stylesheet" type="text/css" href="{% static 'css/util.css' %}">
-	<link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
-<style>
-	.wrap-contact100{
-		margin:0 10px;
-	} 
-</style>
+    <meta charset="utf-8" />
+    <title>BPJS || ANJUNGAN</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- App favicon -->
+    <!-- <link rel="shortcut icon" href="http://103.41.205.13/anjungan/assets/images/favicon.ico"> -->
+
+    <!--Morris Chart CSS -->
+    <link rel="stylesheet" href="http://103.41.205.13/anjungan/assets/plugins/morris/morris.css">
+    <link href="http://103.41.205.13/anjungan/assets/plugins/metro/MetroJs.min.css" rel="stylesheet">
+
+    <!-- App css -->
+    <link href="http://103.41.205.13/anjungan/assets/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link href="http://103.41.205.13/anjungan/assets/css/icons.css" rel="stylesheet" type="text/css" />
+    <link href="http://103.41.205.13/anjungan/assets/css/style.css" rel="stylesheet" type="text/css" />
+    <script src="https://code.jquery.com/jquery-3.4.1.js"
+        integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
+
+    <style>
+        main {
+            height: 100%;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+            /* Ensure that the height of the element includes the  box border, not just the content */
+            border: 0;
+            /* Leave some space for the header and footer to  overlay. */
+            border-top: 20px solid white;
+            border-bottom: 20px solid white;
+        }
+
+        .wrapper {
+            padding-top: 140px;
+        }
+
+        #logo {
+            vertical-align: middle;
+        }
+
+        .navbar-brand span {
+            font-size: 1.3rem;
+            line-height: 1.5;
+            font-weight: 200;
+            display: inline-block;
+            vertical-align: middle;
+            padding: 0 0 0 5px;
+            color: #267146;
+        }
+
+        .navbar-brand b {
+            display: block;
+            font-size: 60%;
+            line-height: 1;
+        }
+
+        .navbar-nav {
+            margin-left: auto;
+        }
+
+        #footer {
+            /* position:fixed; */
+            /* left:0px;
+        bottom:0px;           
+        width:100%;           
+        font-size: 20px; 
+        background: #2cba44;
+        padding: 10px;
+        padding-top: 15px;
+        line-height: 1.15em;
+        color: #ffffff;    */
+        }
+
+        /* IE 6 */
+        * html #footer {
+            position: absolute;
+            top: expression((0-(footer.offsetHeight)+(document.documentElement.clientHeight ? document.documentElement.clientHeight : document.body.clientHeight)+(ignoreMe=document.documentElement.scrollTop ? document.documentElement.scrollTop : document.body.scrollTop))+'px');
+        }
+
+        .topbar .topbar-main {
+            background-color: #f2f5f7;
+        }
+
+        .topbar .topbar-left {
+            background-color: #f2f5f7;
+        }
+
+        .navbar-custom {
+            background: #f2f5f7;
+        }
+
+        .fill {
+            position: absolute;
+            min-height: 100%;
+            height: 100%;
+            width: 100%;
+            background-image: url("http://103.41.205.13/anjungan/assets/images/background.jpeg");
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+            padding-bottom: 40px;
+        }
+
+        html,
+        body {
+            height: 100%;
+            margin: 0;
+            color: #000;
+            padding: 0;
+        }
+
+        #footer {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            clear: both;
+            height: 40px;
+            font-size: 18px;
+            background: #2cba44;
+            color: #ffffff;
+            padding: 10px;
+            padding-top: 8px;
+        }
+
+        .container-fluid {
+            width: 90%;
+        }
+    </style>
 </head>
+
 <body>
-	<div class="container-contact100" class="btn-show-contact100">
-    <!-- form Rujukan -->
-		<div class="wrap-contact100">
 
-			<div class="contact100-form-title">
-				<span>Nomor Rujukan</span>
-			</div>
+    <!-- Top Bar Start -->
+    <div class="topbar">
+        <div class="topbar-main">
+            <div class="container-fluid">
+                <!-- LOGO -->
+                <div class="topbar-left pt-2 text-left">
+                    <a class="navbar-brand" href="#"> <img id="logo" alt="Logo"
+                            src="http://103.41.205.13/anjungan/assets/images/rsmh-logo.png" width="45" height="45">
+                        <span>RSUP Dr.
+                            Mohammad Hoesin<b>Jl. Jenderal Sudirman Km 3,5 Kode Pos 30126, Palembang</b></span> </a>
+                </div>
 
-      <form class="contact100-form validate-form" method="post" action="/pilihdokter/">
-        {% csrf_token %}
-				<div class="wrap-input100 validate-input">
-					<input id="name" class="input100" type="text" placeholder="Nomor Rujukan" name="rujuk" required>
-					<span class="focus-input100"></span>
-					<label class="label-input100" for="name">
-						<span class="lnr lnr-user m-b-2"></span>
-					</label>
-				</div>
+                <!-- Navbar -->
+                <nav class="navbar-custom">
 
-				<div class="container-contact100-form-btn">
-					<button type="submit" class="contact100-form-btn">
-						SUBMIT
-					</button>
-				</div>
-			</form>
-		</div>
+                    <ul class="list-unstyled topbar-nav float-right mb-0">
+                        <li>
+                            <a class="nav-link waves-effect waves-light href=" javascript:void(0);"
+                                style="font-size: 15px;color: #2cba44;">
+                                <i class="mdi mdi-calendar-clock"></i> Selasa, 24 Maret 2020 | 10:00:00
+                            </a>
+                        </li>
 
-		<div class="wrap-contact100">
+                        <li class="hidden-sm">
+                            <a class="nav-link waves-effect waves-light" href="javascript:void(0);" id="btn-fullscreen"
+                                style="color: #2cba44;">
+                                <i class="mdi mdi-fullscreen nav-icon"></i>
+                            </a>
+                        </li>
 
-			<div class="contact100-form-title">
-				<span>Nomor Kartu</span>
-			</div>
+                        <li class="menu-item">
+                            <!-- Mobile menu toggle-->
+                            <a class="navbar-toggle nav-link" id="mobileToggle">
+                                <div class="lines">
+                                    <span></span>
+                                    <span></span>
+                                    <span></span>
+                                </div>
+                            </a>
+                            <!-- End mobile menu toggle-->
+                        </li>
+                    </ul>
+                </nav>
+                <!-- end navbar-->
+            </div>
+            <div class="row">
+                <div class="card text-white w-100 mb-0" style="background-color: #2cba44;">
+                    <div class="card-body pt-2 pb-2">
+                        <h3 class="text-center">PENDAFTARAN PASIEN BPJS</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Top Bar End -->
 
-      <form class="contact100-form validate-form" method="post" action="/pilihdokter/" >
-        {% csrf_token %}
-				<div class="wrap-input100 validate-input">
-					<input id="name" class="input100" type="text" name="nomorKartu" placeholder="Nomor Kartu" required>
-					<span class="focus-input100"></span>
-					<label class="label-input100" for="name">
-						<span class="lnr lnr-user m-b-2"></span>
-					</label>
-				</div>
+    <!-- Page Content-->
+    <!-- <div class="wrapper"> -->
+    <!-- <div class="fill bg-success" id="container">
+                <div class="container-fluid h-100">
+                    <div class="row align-items-center h-100">
+                        <div class="col-md-12 mx-auto">
+                            <p>Pilih Rujukan Berdasarkan :</p>
+                            <button class="btn btn-success btn-lg">No. Rujukan</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="footer">
+                <marquee>
+                    RSUP Dr. Mohammad Hoesin "Kesembuhan dan Kepuasan Anda Merupakan Kebahagiaan Kami"
+                </marquee>
+            </div> -->
 
-				<div class="container-contact100-form-btn">
-					<button type="submit" class="contact100-form-btn">
-						SUBMIT
-					</button>
-				</div>
-			</form>
-		</div>
-	</div>
+
+    <div class="fill bg-success">
+        <div class="container-fluid h-100">
+            <div class="row align-items-center h-100">
+                <div class="col-md-12 mx-auto">
+                    <p>Pilih Pendaftaran Berdasarkan :</p>
+                    <button class="btn btn-success btn-lg pt-3 pb-3 pl-5 pr-5 mr-2"
+                        style="font-size: 16px;background-color: #2cba44;" type="button" data-toggle="modal"
+                        data-target="#myModal">No.
+                        Rujukan</button>
+                    <button class="btn btn-success btn-lg pt-3 pb-3 pl-5 pr-5"
+                        style="font-size: 16px;background-color: #2cba44;" type="button" data-toggle="modal" 
+                        data-target="#Kartu">No. Kartu BPJS</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="footer">
+        <marquee>
+            RSUP Dr. Mohammad Hoesin "Kesembuhan dan Kepuasan Anda Merupakan Kebahagiaan Kami"
+        </marquee>
+    </div>
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <form action="/pilihdokter/" method="post">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <!-- <button type="button" class="close" data-dismiss="modal">&times;</button> -->
+                        <h4>Nomor Rujukan</h4>
+                    </div>
+                    <div class="modal-body">
+                        <!-- <p>Some text in the modal.</p> -->
+                        <div class="input-group mb-3">
+                            {% csrf_token %}
+                            <input placeholder="No Rujukan" type="text" class="form-control"  name="rujuk"
+                                aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-success">SUBMIT</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="modal fade" id="Kartu" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <form action="/pilihdokter/" method="post">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <!-- <button type="button" class="close" data-dismiss="modal">&times;</button> -->
+                        <h4>Nomor Kartu</h4>
+                    </div>
+                    <div class="modal-body">
+                        <!-- <p>Some text in the modal.</p> -->
+                        <div class="input-group mb-3">
+                            {% csrf_token %}
+                            <input placeholder="No Kartu" type="text" class="form-control"  name="nomorKartu"
+                                aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-success">SUBMIT</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    </div>
+    </div>
+
+    <!-- 
+    <form id="myForm">
+        <button type="submit" id="btn-submit">Submit</button>
+    </form> -->
+
+    <!-- </div> -->
+    <!-- end page-wrapper -->
+
+    <!-- jQuery  -->
+    <!-- <script src="http://103.41.205.13/anjungan/assets/js/jquery.min.js"></script> -->
+    <script src="http://103.41.205.13/anjungan/assets/js/bootstrap.bundle.min.js"></script>
+    <script src="http://103.41.205.13/anjungan/assets/js/waves.min.js"></script>
+    <script src="http://103.41.205.13/anjungan/assets/js/jquery.slimscroll.min.js"></script>
+
+    <!--Plugins-->
+    <script src="http://103.41.205.13/anjungan/assets/plugins/morris/morris.min.js"></script>
+    <script src="http://103.41.205.13/anjungan/assets/plugins/raphael/raphael-min.js"></script>
+    <script src="http://103.41.205.13/anjungan/assets/plugins/metro/MetroJs.min.js"></script>
+    <script src="http://103.41.205.13/anjungan/assets/plugins/jquery-knob/excanvas.js"></script>
+    <script src="http://103.41.205.13/anjungan/assets/plugins/jquery-knob/jquery.knob.min.js"></script>
+    <script src="http://103.41.205.13/anjungan/assets/pages/jquery.dashboard.init.js"></script>
+
+    <!-- App js -->
+    <script src="http://103.41.205.13/anjungan/assets/js/app.js"></script>
+
 </body>
+
 </html>
